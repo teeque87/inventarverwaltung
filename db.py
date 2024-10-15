@@ -13,11 +13,12 @@ class Database():
 
     def get_all_from_db(self):
         self.cur.execute('''SELECT * FROM articles''')
+        return self.cur.fetchall()
 
     def add_to_database(self, data):
         """add new entry (int: product_id, string: name, int: amount) to the database and replace entry if already exists (product_id)"""
         self.create_table()
-        self.cur.executemany('REPLACE INTO articles VALUES(?, ?, ?)', data)
+        self.cur.executemany('REPLACE INTO articles VALUES(?, ?, ?)', (data,))
         self.connection.commit()
 
     def create_table(self):
