@@ -3,6 +3,8 @@ import view.artikelgr # importieren des Unterprogramms artikelgr.py
 from services.item_services import ItemServices
 import os
 
+services = ItemServices()
+
 def clear_console():
     # Konsole je nach Betriebssystem
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -25,7 +27,7 @@ def warenausgang():
 
 def inventurliste_ausgeben():
     clear_console()
-    ItemServices().fetch_all_items()
+    services.fetch_all_items()
     input("Drücken Sie Enter, um zum Menü zurückzukehren.")
 
 def programm_beenden():

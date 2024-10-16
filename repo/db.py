@@ -13,12 +13,12 @@ class Database():
     def __del__(self):
         self.connection.close()
 
-    def fetch_all(self) -> tuple[int, str, int, str]:
+    def fetch_all(self) -> list[tuple[int, str, int, str]]:
         """method to get all articles from the database"""
         self.cur.execute('''SELECT product_id, name, amount, cat_name FROM articles INNER JOIN categories on categories.cat_id = articles.cat_id''')
         return self.cur.fetchall()
     
-    def fetch_one(self, product_id) -> tuple[int, str, int, str]:
+    def fetch_one(self, product_id: int) -> tuple[int, str, int, str]:
         """method to get one articles from the database. provide an integer as the product_id"""
         self.cur.execute('''SELECT product_id, name, amount, cat_name FROM articles INNER JOIN categories on categories.cat_id = articles.cat_id WHERE product_id=?''', (product_id,))
         return self.cur.fetchone()
@@ -28,16 +28,16 @@ class Database():
         self.cur.executemany('''REPLACE INTO articles VALUES(?, ?, ?, ?)''', (data,))
         self.connection.commit()
 
-    def add_new_category(self, data: tuple[str]):
-        """add new category (int: cat_id, string: cat_name) to the database and replace categorie if already exists (cat_id)"""
-        self.cur.executemany('''REPLACE INTO categories VALUES(?, ?)''', (data,))
+    def add_new_category(self, data: str):
+        """add new category (string: cat_name) to the database and replace categorie if already exists (cat_id)"""
+        self.cur.execute('''REPLACE INTO categories (cat_name) VALUES(?)''', (data,))
         self.connection.commit()
 
     def __create_table(self):
         """create a database table if it does not exist already"""
         self.cur.execute('''CREATE TABLE IF NOT EXISTS categories(cat_id INTEGER PRIMARY KEY AUTOINCREMENT, cat_name text)''')
         self.connection.commit()
-        self.cur.execute('''CREATE TABLE IF NOT EXISTS articles(product_id integer PRIMARY KEY, name text, amount integer, cat_id integer, FOREIGN KEY (cat_id) REFERENCES categories(cat_id))''')
+        self.cur.execute('''CREATE TABLE IF NOT EXISTS articles(product_id INTEGER PRIMARY KEY, name text, amount integer, cat_id integer, FOREIGN KEY (cat_id) REFERENCES categories(cat_id))''')
         self.connection.commit()
 
     def __enter__(self):

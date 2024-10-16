@@ -11,7 +11,7 @@ class ItemServices:
     def __init__(self):
         self.db = Database()
 
-    def fetch_one_item(self, product_id):
+    def fetch_one_item(self, product_id: int):
         item = self.db.fetch_one(product_id)
         product_id, name, amount, cat_id = item
         print(Item(product_id, name, amount, cat_id))
@@ -21,4 +21,7 @@ class ItemServices:
         for item in fetched_data:
             product_id, name, amount, cat_id = item
             print(Item(product_id, name, amount, cat_id))
+
+    def add_new_category(self, name: str):
+        self.db.add_new_category(name)
         
