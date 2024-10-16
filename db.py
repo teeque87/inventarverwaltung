@@ -20,7 +20,7 @@ class Database():
 
     def add_to_database(self, data: tuple[int, str, int, int]):
         """add new entry (int: product_id, string: name, int: amount, int: cat_id) to the database and replace entry if already exists (product_id)"""
-        self.cur.executemany('REPLACE INTO articles VALUES(?, ?, ?)', (data,))
+        self.cur.executemany('REPLACE INTO articles VALUES(?, ?, ?, ?)', (data,))
         self.connection.commit()
 
     def add_new_category(self, data: tuple[int, str]):
