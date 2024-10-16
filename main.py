@@ -1,2 +1,4 @@
+import view.menu as menu
+
 if __name__ == "__main__":
-    print('Programm wird gestartet')
+    menu.menue_auswahl()
