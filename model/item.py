@@ -1,4 +1,4 @@
-# Klasse initialisieren
+
 class Item:
     # Klassen-Attribute
     def __init__(self, product_id, name, amount, cat_id):  # (min_quantity) Attribut rausgenommen
