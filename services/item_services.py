@@ -3,6 +3,7 @@ import sys
 from model.item import Item
 from repo.db import Database
 
+
 # insert root directory into python module search path
 sys.path.insert(1, os.getcwd())
 
@@ -23,6 +24,9 @@ class ItemRepository:
     #def get_item(self, item_id):
         #pass
 
+    def fetch_all(self):
+        return self.db.fetch_all()
+
 
 # diese Klasse stellt alle Services zur Verwaltung der Artikel bereit
 class ItemServices:
@@ -38,7 +42,7 @@ class ItemServices:
     def fetch_all_items(self):
         try:
             # Daten aus Datenbank abfragen
-            fetched_data = self.db.fetch_all()
+            fetched_data = self.repository.fetch_all()
             # Liste von Artikeln anlegen und zurückgeben
             items = [Item(product_id, name, amount, cat_id) for product_id, name, amount, cat_id in fetched_data]
             return items
