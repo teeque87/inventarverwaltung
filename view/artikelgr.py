@@ -1,10 +1,20 @@
 import os
+from services.item_services import ItemServices
 
 def clear_console():
     # Leert die Konsole je nach Betriebssystem
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def artikelgr_menue():
+def artikelgr_anlegen(item_services: ItemServices):
+    clear_console()
+    try:
+        cat_name = input("Name der neuen Artikelgruppe: ")
+        item_services.add_new_category(cat_name)
+        print(f"Artikelgruppe '{cat_name}' wurde hinzugefügt.")
+    except ValueError:
+        print("Ungültige Eingabe. Bitte geben Sie die Daten erneut ein.")
+
+def artikelgr_menue(item_services: ItemServices):
     while True:
         clear_console()  # Konsole leeren, bevor das Artikelmenü angezeigt wird
         print("\n********** Artikelgruppe anlegen / bearbeiten **********")
@@ -18,7 +28,7 @@ def artikelgr_menue():
             auswahl = int(input("Bitte wählen Sie eine Option (1-4): "))
             
             if auswahl == 1:
-                artikelgr_anlegen()
+                artikelgr_anlegen(item_services)
             elif auswahl == 2:
                 artikelgr_bearbeiten()
             elif auswahl == 3:

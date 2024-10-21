@@ -33,6 +33,11 @@ class Database():
         self.cur.executemany('''REPLACE INTO categories VALUES(?, ?)''', (data,))
         self.connection.commit()
 
+    """def add_new_category(self, cat_name: str):
+        ""add new category (string: cat_name) with auto-increment cat_id""
+        self.cur.execute('''INSERT INTO categories(cat_name) VALUES(?)''', (cat_name,))
+        self.connection.commit()"""
+
     def __create_table(self):
         """create a database table if it does not exist already"""
         self.cur.execute('''CREATE TABLE IF NOT EXISTS categories(cat_id INTEGER PRIMARY KEY AUTOINCREMENT, cat_name text)''')

@@ -38,3 +38,16 @@ class ItemServices:
             # [] wird bei Fehler zurückgegeben
             return []
 >>>>>>> origin/isa
+
+
+def add_new_item(self, product_id, name, amount, cat_id):
+    data = (product_id, name, amount, cat_id)
+    self.db.add_to_database(data)
+    product_id, name, amount, cat_id = data
+    print(f'Artikel {name} mit Produkt-ID {product_id} wurde der Datenbank hinzugefügt.')
+
+
+def add_new_category(self, cat_name):
+    self.db.add_new_category(cat_name)
+    print(f'Artikelgruppe "{cat_name}" wurde der Datenbank hinzugefügt.')
+
