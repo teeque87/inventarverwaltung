@@ -1,7 +1,9 @@
-import artikel  # importieren des Unterprogramms artikel.py
-import artikelgr # importieren des Unterprogramms artikelgr.py
+import view.artikel as artikel  # importieren des Unterprogramms artikel.py
+import view.artikelgr as artikelgr# importieren des Unterprogramms artikelgr.py
 from services.item_services import ItemServices
 import os
+
+item_services = ItemServices()
 
 def clear_console():
     # Konsole je nach Betriebssystem
@@ -9,12 +11,10 @@ def clear_console():
 
 def artikel_anlegen_bearbeiten():
     # Aufruf des Unterprogramms artikel.py
-    item_services = ItemServices()
-    artikel.artikel_menue(item_services)
+    artikel.artikel_menue()
 
 def artikelgruppe_anlegen_bearbeiten():
     #aufrufen des Unterprogramms artikelgr.py
-    item_services = ItemServices()
     artikelgr.artikelgr_menue()
 
 def wareneingang():
@@ -46,7 +46,7 @@ def menue_anzeigen():
     print("**************************************************")
 
 def menue_auswahl():
-    item_services = ItemServices()
+
     while True:
         clear_console()  # Konsole leeren bevor das Hauptmenü angezeigen
         menue_anzeigen()

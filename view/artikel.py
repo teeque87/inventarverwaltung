@@ -1,5 +1,8 @@
 import os
 from services.item_services import ItemServices
+from services.item_services import ItemServices
+
+item_services = ItemServices()
 
 def clear_console():
     # Leert die Konsole je nach Betriebssystem
@@ -30,7 +33,7 @@ def artikel_bearbeiten(item_services: ItemServices):
         print("Ungültige Eingabe. Bitte geben Sie die Daten erneut ein.")
     input("Drücken Sie Enter, um zum Menü zurückzukehren.")
 
-def artikel_menue(item_services: ItemServices):
+def artikel_menue():
     while True:
         clear_console()  # Konsole leeren, bevor das Artikelmenü angezeigt wird
         print("\n********** Artikel anlegen / bearbeiten **********")
@@ -48,7 +51,7 @@ def artikel_menue(item_services: ItemServices):
             elif auswahl == 2:
                 artikel_bearbeiten(item_services)
             elif auswahl == 3:
-                artikel_loeschen()
+               """artikel_loeschen()"""
             elif auswahl == 4:
                 clear_console()  # Konsole leeren, bevor zum Hauptmenü gewechselt wird
                 print("Zurück zum Hauptmenü...")

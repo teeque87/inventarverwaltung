@@ -1,20 +1,15 @@
 from model.item import Item
 from repo.db import Database
 
-# initialisiert die ItemServices in einer Datenbankinstanz
-class ItemRepository:
-    def __init__(self, db: Database):
-        self.db = db  #Instanz der Klasse Database zur Datenbankinteraktion
-        # gibt es einen try/except Block in der Datenbank?
 
 # diese Klasse stellt alle Services zur Verwaltung der Artikel bereit
 class ItemServices:
 
-    def __init__(self, repository: ItemRepository):
-        self.repository = repository
+    def __init__(self):
+        self.db = Database
 
     def fetch_one_item(self, product_id):
-        item = self.repository.db.fetch_one(product_id)
+        item = self.db.fetch_one(product_id)
         product_id, name, amount, cat_id = item
         return (Item(product_id, name, amount, cat_id)) #kann durch print ersetzt werden, falls direkte Ausgabe rfolgen soll
         #return item
@@ -22,7 +17,7 @@ class ItemServices:
     def fetch_all_items(self):
         try:
             # Daten aus Datenbank abfragen
-            fetched_data = self.repository.db.fetch_all()
+            fetched_data = self.db.fetch_all()
 
             # Liste von Artikeln anlegen und zurückgeben
             items = [Item(product_id, name, amount, cat_id) for product_id, name, amount, cat_id in fetched_data]
@@ -35,9 +30,9 @@ class ItemServices:
             return []
 
     def add_new_item(self, product_id, name, amount, cat_id):
-        data = (product_id, name, amount, cat_id)
-        self.db.add_to_database(data)
-        product_id, name, amount, cat_id = data
+        """data = (product_id, name, amount, cat_id)"""
+        self.db.add_to_database(self.db,(product_id, name, amount, cat_id))
+        """product_id, name, amount, cat_id = data"""
         print(f'Artikel {name} mit Produkt-ID {product_id} wurde der Datenbank hinzugefügt.')
 
 
