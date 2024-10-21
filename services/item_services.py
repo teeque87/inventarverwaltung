@@ -56,3 +56,7 @@ class ItemServices:
     def search_items(self, search_term: str):
     """Searches the database for items based on product_id or name."""
     return self.database.search_items(search_term) 
+    
+    def search_items(self, search_term: str):
+    """Searches the database for items based on product_id or name."""
+    return self.database.search_items(search_term)

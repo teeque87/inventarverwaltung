@@ -53,16 +53,15 @@ class Database():
         self.cur.execute('''DELETE FROM articles WHERE product_id = ?''', (product_id,))
         self.connection.commit()
 
-    def search_by_id(self, product_id: int) -> tuple[int,str,int,int]:
-        """search the database by product_id 'could be partial' (int: product) and return the data"""
-        like_pattern = f"%{product_id}%"
-        self.cur.execute('''SELECT * FROM articles WHERE product_id LIKE ?''', (like_pattern,))
-        return self.cur.fetchall()
-    
-    def search_by_name(self, product_name: str) -> tuple[int,str,int,int]:
-        """search the database by product_id 'could be partial' (int: product) and return the data"""
-        like_pattern = f"%{product_name}%"
-        self.cur.execute('''SELECT * FROM articles WHERE name LIKE ?''', (like_pattern,))
+    def search_items(self, search_term: str):
+        """Search the database for items based on product_id or name."""
+        term = f"%{search_term}%"
+        query = """
+            SELECT product_id, name, amount, cat_id 
+            FROM articles 
+            WHERE name LIKE ? OR product_id LIKE ?
+        """
+        self.cur.execute(query, (term, term))
         return self.cur.fetchall()
     
     def __create_table(self):
