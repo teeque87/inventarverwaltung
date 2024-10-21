@@ -1,35 +1,46 @@
 from model.item import Item
 from repo.db import Database
 
-# initialisiert die ItemServices in einer Datenbankinstanz
-class ItemRepository:
-    def __init__(self, db: Database):
-        self.db = db  #Instanz der Klasse Database zur Datenbankinteraktion
-        # gibt es einen try/except Block in der Datenbank?
-
-# diese Klasse stellt alle Services zur Verwaltung der Artikel bereit
+# initialisiert die ItemServices in einer Datenbankinstan
 class ItemServices:
 
-    def __init__(self, repository: ItemRepository):
-        self.repository = repository
+    def __init__(self):
+        self.db = Database()
 
-    def fetch_one_item(self, product_id):
-        item = self.repository.db.fetch_one(product_id)
+    def get_one_item(self, product_id):
+        item = self.db.fetch_one(product_id)
         product_id, name, amount, cat_id = item
-        return (Item(product_id, name, amount, cat_id)) #kann durch print ersetzt werden, falls direkte Ausgabe rfolgen soll
-        #return item
+        return (Item(product_id, name, amount, cat_id)) #kann durch print ersetzt werden, falls direkte Ausgabe erfolgen soll
 
-    def fetch_all_items(self):
+    def get_all_items(self):
         try:
             # Daten aus Datenbank abfragen
-            fetched_data = self.repository.db.fetch_all()
-
-            # Liste von Artikeln anlegen und zurückgeben
+            fetched_data = self.db.fetch_all()
             items = [Item(product_id, name, amount, cat_id) for product_id, name, amount, cat_id in fetched_data]
             return items
 
+        except Exception as e:
+            print(f"Fehler beim Abrufen der Artikel: {e}")
+            return []
+        
+    def get_all_categories(self):
+        try:
+            # Daten aus Datenbank abfragen
+            fetched_data = self.db.fetch_all_categories()
+            return fetched_data
 
         except Exception as e:
             print(f"Fehler beim Abrufen der Artikel: {e}")
-            # [] wird bei Fehler zurückgegeben
             return []
+        
+    def new_category(self, name):
+        self.db.add_new_category(name)
+    
+    def edit_category(self, cat_id, new_name):
+        self.db.edit_category((cat_id, new_name))
+
+    def delete_category(self, cat_id):
+        self.db.delete_category(cat_id)
+
+    def add_new_entry(self, product_id, name, amount, cat_id):
+        self.db.add_to_database((product_id, name, amount, cat_id))
