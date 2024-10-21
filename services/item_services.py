@@ -6,7 +6,7 @@ from repo.db import Database
 class ItemServices:
 
     def __init__(self):
-        self.db = Database
+        self.db = Database()
 
     def fetch_one_item(self, product_id):
         item = self.db.fetch_one(product_id)
@@ -30,9 +30,9 @@ class ItemServices:
             return []
 
     def add_new_item(self, product_id, name, amount, cat_id):
-        """data = (product_id, name, amount, cat_id)"""
-        self.db.add_to_database(self.db,(product_id, name, amount, cat_id))
-        """product_id, name, amount, cat_id = data"""
+        data = (product_id, name, amount, cat_id)
+        self.db.add_to_database(data)
+        #product_id, name, amount, cat_id = data
         print(f'Artikel {name} mit Produkt-ID {product_id} wurde der Datenbank hinzugefügt.')
 
 

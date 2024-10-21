@@ -8,7 +8,7 @@ def clear_console():
     # Leert die Konsole je nach Betriebssystem
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def artikel_anlegen(item_services: ItemServices):
+def artikel_anlegen():
     clear_console()
     try:
         product_id = int(input("Produkt-ID eingeben: "))
@@ -47,7 +47,7 @@ def artikel_menue():
             auswahl = int(input("Bitte wählen Sie eine Option (1-4): "))
             
             if auswahl == 1:
-                artikel_anlegen(item_services)
+                artikel_anlegen()
             elif auswahl == 2:
                 artikel_bearbeiten(item_services)
             elif auswahl == 3:
