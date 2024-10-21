@@ -48,6 +48,11 @@ class Database():
         self.cur.execute('''DELETE FROM categories WHERE cat_id = ?''', (cat_id,))
         self.connection.commit()
 
+    def delete_entry(self, product_id: str):
+        """add new category (int: cat_id, string: cat_name) to the database and replace categorie if already exists (cat_id)"""
+        self.cur.execute('''DELETE FROM articles WHERE product_id = ?''', (product_id,))
+        self.connection.commit()
+
     def __create_table(self):
         """create a database table if it does not exist already"""
         self.cur.execute('''CREATE TABLE IF NOT EXISTS categories(cat_id INTEGER PRIMARY KEY AUTOINCREMENT, cat_name text)''')

@@ -40,6 +40,7 @@ class Menu():
                         amount = int(input("Anzahl: "))
                         cat_id = int(input("Kategorie-ID: "))
                         self.item_services.add_new_entry(product_id, name, amount, cat_id)
+                        input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
                     except ValueError:
                         print("Ungültige Eingabe. Bitte geben Sie die Daten erneut ein.")
                 elif auswahl == 2:
@@ -54,11 +55,22 @@ class Menu():
                         amount = int(input("Anzahl: "))
                         cat_id = int(input("Kategorie-ID: "))
                         self.item_services.add_new_entry(product_id, name, amount, cat_id)
+                        input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
                     except ValueError:
                         print("Ungültige Eingabe. Bitte geben Sie die Daten erneut ein.")
                 elif auswahl == 3:
-                    # loeschen
-                    pass
+                    self.clear_console()
+                    print("\n******** Artikel löschen ********")
+                    try:
+                        items = self.item_services.get_all_items()
+                        for item in items:
+                            print(item)
+                        product_id = int(input("\nProdukt-ID eingeben: "))
+                        self.item_services.delete_entry(product_id)
+                        input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
+                    except ValueError:
+                        print("Ungültige Eingabe. Bitte geben Sie die Daten erneut ein.")
+
                 elif auswahl == 4:
                     self.clear_console()
                     print("Zurück zum Hauptmenü...")
@@ -106,11 +118,9 @@ class Menu():
                     print(f"ID: {cat[0]:10} | Name: {cat[1]}")
                 name = input("\nName der anzulegenden Kategorie: ")
                 self.item_services.new_category(name)
-                print(f"Kategorie {name} hinzugefügt.")
+                input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
             except ValueError:
                 print("Ungültige Eingabe. Bitte geben Sie die Daten erneut ein.")
-            
-            input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
 
     def artikelgr_bearbeiten(self):
         self.clear_console()
@@ -122,11 +132,9 @@ class Menu():
             cat_id = int(input("\nID der zu bearbeitenden Kategorie: "))
             name = input("Neuer Name der Kategorie: ")
             self.item_services.edit_category(cat_id, name)
-            print(f"Kategorie der ID: {cat_id} zu {name} geändert.")
+            input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
         except ValueError:
             print("Ungültige Eingabe. Bitte geben Sie die Daten erneut ein.")
-        
-        input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
 
     def artikelgr_loeschen(self):
         self.clear_console()
@@ -137,11 +145,10 @@ class Menu():
                 print(f"ID: {cat[0]:10} | Name: {cat[1]}")
             cat_id = int(input("\nID der zu löschenden Kategorie: "))
             self.item_services.delete_category(cat_id)
-            print(f"Kategorie der ID: {cat_id} gelöscht.")
+            input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
         except ValueError:
             print("Ungültige Eingabe. Bitte geben Sie die Daten erneut ein.")
-        
-        input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
+
 
     def wareneingang(self):
         print("\n[Wareneingang ausgewählt]\n")

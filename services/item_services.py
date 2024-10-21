@@ -35,12 +35,20 @@ class ItemServices:
         
     def new_category(self, name):
         self.db.add_new_category(name)
+        print(f"Kategorie {name} hinzugefügt.")
     
     def edit_category(self, cat_id, new_name):
         self.db.edit_category((cat_id, new_name))
+        print(f"Kategorie der ID: {cat_id} zu {new_name} geändert.")
 
     def delete_category(self, cat_id):
         self.db.delete_category(cat_id)
+        print(f"Kategorie mit der ID: {cat_id} gelöscht.")
+
+    def delete_entry(self, product_id):
+        self.db.delete_entry(product_id)
+        print(f"Artikel mit der ID: {product_id} gelöscht.")
 
     def add_new_entry(self, product_id, name, amount, cat_id):
         self.db.add_to_database((product_id, name, amount, cat_id))
+        print(f"Artikel mit der ID {product_id}, Name {name}, Anzahl {amount}, Kategorie {cat_id} zur Datenbank hinzugefügt.")
