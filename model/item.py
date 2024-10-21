@@ -1,8 +1,8 @@
-# Klasse initialisieren
+
 class Item:
     # Klassen-Attribute
-    def __init__(self, item_id, name, amount, cat_id):  # (min_quantity) Attribut rausgenommen
-        self.item_id = item_id
+    def __init__(self, product_id, name, amount, cat_id):  # (min_quantity) Attribut rausgenommen
+        self.product_id = product_id
         self.name = name
         self.category = cat_id
         self.amount = amount
@@ -10,5 +10,5 @@ class Item:
 
 
     def __str__(self):
-        # print(f"Product ID: {product_id}, Name: {name}, Menge: {amount}, Kategorie: {category}")
-        return f"Artikel-ID: {self.item_id:10} | Name: {self.name:10} | Menge: {self.amount:10} | Kategorie: {self.category}"
+        #print(f"Product ID: {product_id}, Name: {name}, Menge: {amount}, Kategorie: {category}")
+        return f"Artikel-ID: {self.product_id:10} | Name: {self.name:10} | Menge: {self.amount:10} | Kategorie: {self.category}"
