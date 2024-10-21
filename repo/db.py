@@ -39,20 +39,32 @@ class Database():
         self.connection.commit()
 
     def edit_category(self, data: tuple[int, str]):
-        """add new category (int: cat_id, string: cat_name) to the database and replace categorie if already exists (cat_id)"""
+        """edit a category (int: cat_id, string: cat_name) and write to the database"""
         self.cur.executemany('''REPLACE INTO categories VALUES(?, ?)''', (data,))
         self.connection.commit()
 
     def delete_category(self, cat_id: str):
-        """add new category (int: cat_id, string: cat_name) to the database and replace categorie if already exists (cat_id)"""
+        """delete category (int: cat_id) from the database"""
         self.cur.execute('''DELETE FROM categories WHERE cat_id = ?''', (cat_id,))
         self.connection.commit()
 
     def delete_entry(self, product_id: str):
-        """add new category (int: cat_id, string: cat_name) to the database and replace categorie if already exists (cat_id)"""
+        """delete an entry (int: product_id) from the database"""
         self.cur.execute('''DELETE FROM articles WHERE product_id = ?''', (product_id,))
         self.connection.commit()
 
+    def search_by_id(self, product_id: int) -> tuple[int,str,int,int]:
+        """search the database by product_id 'could be partial' (int: product) and return the data"""
+        like_pattern = f"%{product_id}%"
+        self.cur.execute('''SELECT * FROM articles WHERE product_id LIKE ?''', (like_pattern,))
+        return self.cur.fetchall()
+    
+    def search_by_name(self, product_name: str) -> tuple[int,str,int,int]:
+        """search the database by product_id 'could be partial' (int: product) and return the data"""
+        like_pattern = f"%{product_name}%"
+        self.cur.execute('''SELECT * FROM articles WHERE name LIKE ?''', (like_pattern,))
+        return self.cur.fetchall()
+    
     def __create_table(self):
         """create a database table if it does not exist already"""
         self.cur.execute('''CREATE TABLE IF NOT EXISTS categories(cat_id INTEGER PRIMARY KEY AUTOINCREMENT, cat_name text)''')
