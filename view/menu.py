@@ -1,6 +1,5 @@
-import view.artikel  # importieren des Unterprogramms artikel.py
-import view.artikelgr # importieren des Unterprogramms artikelgr.py
-from services.item_services import ItemServices
+import artikel  # importieren des Unterprogramms artikel.py
+import artikelgr # importieren des Unterprogramms artikelgr.py
 import os
 
 def clear_console():
@@ -24,8 +23,7 @@ def warenausgang():
     input("Drücken Sie Enter, um zum Menü zurückzukehren.")
 
 def inventurliste_ausgeben():
-    clear_console()
-    ItemServices().fetch_all_items()
+    print("\n[Inventurliste ausgeben ausgewählt]\n")
     input("Drücken Sie Enter, um zum Menü zurückzukehren.")
 
 def programm_beenden():
