@@ -1,42 +1,54 @@
 from model.item import Item
 from repo.db import Database
 
-
-# diese Klasse stellt alle Services zur Verwaltung der Artikel bereit
+# initialisiert die ItemServices in einer Datenbankinstan
 class ItemServices:
 
     def __init__(self):
         self.db = Database()
 
-    def fetch_one_item(self, product_id):
+    def get_one_item(self, product_id):
         item = self.db.fetch_one(product_id)
         product_id, name, amount, cat_id = item
-        return (Item(product_id, name, amount, cat_id)) #kann durch print ersetzt werden, falls direkte Ausgabe rfolgen soll
-        #return item
+        return (Item(product_id, name, amount, cat_id)) #kann durch print ersetzt werden, falls direkte Ausgabe erfolgen soll
 
-    def fetch_all_items(self):
+    def get_all_items(self):
         try:
             # Daten aus Datenbank abfragen
             fetched_data = self.db.fetch_all()
-
-            # Liste von Artikeln anlegen und zurückgeben
             items = [Item(product_id, name, amount, cat_id) for product_id, name, amount, cat_id in fetched_data]
             return items
 
+        except Exception as e:
+            print(f"Fehler beim Abrufen der Artikel: {e}")
+            return []
+        
+    def get_all_categories(self):
+        try:
+            # Daten aus Datenbank abfragen
+            fetched_data = self.db.fetch_all_categories()
+            return fetched_data
 
         except Exception as e:
             print(f"Fehler beim Abrufen der Artikel: {e}")
-            # [] wird bei Fehler zurückgegeben
             return []
+        
+    def new_category(self, name):
+        self.db.add_new_category(name)
+        print(f"Kategorie {name} hinzugefügt.")
+    
+    def edit_category(self, cat_id, new_name):
+        self.db.edit_category((cat_id, new_name))
+        print(f"Kategorie der ID: {cat_id} zu {new_name} geändert.")
 
-    def add_new_item(self, product_id, name, amount, cat_id):
-        data = (product_id, name, amount, cat_id)
-        self.db.add_to_database(data)
-        #product_id, name, amount, cat_id = data
-        print(f'Artikel {name} mit Produkt-ID {product_id} wurde der Datenbank hinzugefügt.')
+    def delete_category(self, cat_id):
+        self.db.delete_category(cat_id)
+        print(f"Kategorie mit der ID: {cat_id} gelöscht.")
 
+    def delete_entry(self, product_id):
+        self.db.delete_entry(product_id)
+        print(f"Artikel mit der ID: {product_id} gelöscht.")
 
-    def add_new_category(self, cat_name):
-        self.db.add_new_category(cat_name)
-        print(f'Artikelgruppe "{cat_name}" wurde der Datenbank hinzugefügt.')
-
+    def add_new_entry(self, product_id, name, amount, cat_id):
+        self.db.add_to_database((product_id, name, amount, cat_id))
+        print(f"Artikel mit der ID {product_id}, Name {name}, Anzahl {amount}, Kategorie {cat_id} zur Datenbank hinzugefügt.")
