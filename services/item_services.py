@@ -52,3 +52,7 @@ class ItemServices:
     def add_new_entry(self, product_id, name, amount, cat_id):
         self.db.add_to_database((product_id, name, amount, cat_id))
         print(f"Artikel mit der ID {product_id}, Name {name}, Anzahl {amount}, Kategorie {cat_id} zur Datenbank hinzugefügt.")
+
+    def search_items(self, search_term: str):
+    """Searches the database for items based on product_id or name."""
+    return self.database.search_items(search_term) 
