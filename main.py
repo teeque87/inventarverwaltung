@@ -3,7 +3,7 @@ from services.item_services import ItemRepository
 from services.item_services import ItemServices
 from repo.db import Database
 import logging
-
+import view.menu as menu
 
 def main():
     product_id = 1 # Eingabe aus UI
@@ -19,4 +19,4 @@ def main():
         print(item)
 
 if __name__ == "__main__":
-    main()
+    menu.menue_auswahl()
