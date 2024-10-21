@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-
-=======
 from model.item import Item
 from repo.db import Database
 
@@ -37,4 +33,3 @@ class ItemServices:
             print(f"Fehler beim Abrufen der Artikel: {e}")
             # [] wird bei Fehler zurückgegeben
             return []
->>>>>>> origin/isa
