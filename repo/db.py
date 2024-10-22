@@ -1,7 +1,6 @@
 # import needed modules
 import sqlite3
 
-
 class Database():
     __DB_LOCATION = "database.db"
 
@@ -14,20 +13,17 @@ class Database():
     def __del__(self):
         self.connection.close()
 
-    def fetch_all(self) -> list[tuple]:
+    def fetch_all(self) -> tuple[int, str, int, str]:
         """method to get all articles from the database"""
-        self.cur.execute(
-            '''SELECT product_id, name, amount, cat_name FROM articles LEFT JOIN categories on categories.cat_id = articles.cat_id''')
+        self.cur.execute('''SELECT product_id, name, amount, cat_name FROM articles LEFT JOIN categories on categories.cat_id = articles.cat_id''')
         return self.cur.fetchall()
-
-    def fetch_one(self, product_id) -> list[tuple]:
+    
+    def fetch_one(self, product_id) -> tuple[int, str, int, str]:
         """method to get one articles from the database. provide an integer as the product_id"""
-        self.cur.execute(
-            '''SELECT product_id, name, amount, cat_name FROM articles LEFT JOIN categories on categories.cat_id = articles.cat_id WHERE product_id=?''',
-            (product_id,))
+        self.cur.execute('''SELECT product_id, name, amount, cat_name FROM articles LEFT JOIN categories on categories.cat_id = articles.cat_id WHERE product_id=?''', (product_id,))
         return self.cur.fetchone()
-
-    def fetch_all_categories(self) -> list[tuple]:
+    
+    def fetch_all_categories(self) -> tuple[int, str]:
         """method to get all categories from the database"""
         self.cur.execute('''SELECT cat_id, cat_name FROM categories''')
         return self.cur.fetchall()
@@ -57,34 +53,23 @@ class Database():
         self.cur.execute('''DELETE FROM articles WHERE product_id = ?''', (product_id,))
         self.connection.commit()
 
-    def search_by_id(self, product_id: int) -> list[tuple]:
-        """Sucht die Datenbank nach product_id und gibt die Daten zurück."""
-        self.cur.execute('''SELECT * FROM articles WHERE product_id = ?''', (product_id,))
+    def search_by_id(self, product_id: int) -> tuple[int,str,int,int]:
+        """search the database by product_id 'could be partial' (int: product) and return the data"""
+        like_pattern = f"%{product_id}%"
+        self.cur.execute('''SELECT * FROM articles WHERE product_id LIKE ?''', (like_pattern,))
         return self.cur.fetchall()
-
-    def search_by_name(self, product_name: str) -> list[tuple]:
-        """Sucht die Datenbank nach product_name und gibt die Daten zurück."""
+    
+    def search_by_name(self, product_name: str) -> tuple[int,str,int,int]:
+        """search the database by product_id 'could be partial' (int: product) and return the data"""
         like_pattern = f"%{product_name}%"
         self.cur.execute('''SELECT * FROM articles WHERE name LIKE ?''', (like_pattern,))
         return self.cur.fetchall()
-
-    def check_storage(self, threshold=5) -> list[tuple]:
-        """check the database for product that are low on the given (default 5) amount"""
-        self.cur.execute('''SELECT * FROM articles WHERE amount <= ?''', (threshold,))
-        return self.cur.fetchall()
-
-    def update_item_amount(self, product_id: int, new_amount: int):
-        """Aktualisiert die Menge eines Artikels in der Datenbank."""
-        self.cur.execute('''UPDATE articles SET amount = ? WHERE product_id = ?''', (new_amount, product_id))
-        self.connection.commit()
-
+    
     def __create_table(self):
         """create a database table if it does not exist already"""
-        self.cur.execute(
-            '''CREATE TABLE IF NOT EXISTS categories(cat_id INTEGER PRIMARY KEY AUTOINCREMENT, cat_name text)''')
+        self.cur.execute('''CREATE TABLE IF NOT EXISTS categories(cat_id INTEGER PRIMARY KEY AUTOINCREMENT, cat_name text)''')
         self.connection.commit()
-        self.cur.execute(
-            '''CREATE TABLE IF NOT EXISTS articles(product_id integer PRIMARY KEY, name text, amount integer, cat_id integer, FOREIGN KEY (cat_id) REFERENCES categories(cat_id))''')
+        self.cur.execute('''CREATE TABLE IF NOT EXISTS articles(product_id integer PRIMARY KEY, name text, amount integer, cat_id integer, FOREIGN KEY (cat_id) REFERENCES categories(cat_id))''')
         self.connection.commit()
 
     def __enter__(self):
