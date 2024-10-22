@@ -72,3 +72,14 @@ class ItemServices:
         except Exception as e:
             print(f"Fehler bei der Suche: {e}")
             return []
+        
+    def storage_warning(self) -> bool:
+        results = self.db.check_storage()
+        if results:
+            items = [Item(product_id, name, amount, cat_id) for product_id, name, amount, cat_id in results]
+            print("\n******** WARNUNG ********\nFolgende Artikel sind niedrig im Bestand\n")
+            for item in items:
+                print(item)
+            return True
+        else:
+            return False

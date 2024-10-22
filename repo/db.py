@@ -13,17 +13,17 @@ class Database():
     def __del__(self):
         self.connection.close()
 
-    def fetch_all(self) -> tuple[int, str, int, str]:
+    def fetch_all(self) -> list[tuple]:
         """method to get all articles from the database"""
         self.cur.execute('''SELECT product_id, name, amount, cat_name FROM articles LEFT JOIN categories on categories.cat_id = articles.cat_id''')
         return self.cur.fetchall()
     
-    def fetch_one(self, product_id) -> tuple[int, str, int, str]:
+    def fetch_one(self, product_id) -> list[tuple]:
         """method to get one articles from the database. provide an integer as the product_id"""
         self.cur.execute('''SELECT product_id, name, amount, cat_name FROM articles LEFT JOIN categories on categories.cat_id = articles.cat_id WHERE product_id=?''', (product_id,))
         return self.cur.fetchone()
     
-    def fetch_all_categories(self) -> tuple[int, str]:
+    def fetch_all_categories(self) -> list[tuple]: 
         """method to get all categories from the database"""
         self.cur.execute('''SELECT cat_id, cat_name FROM categories''')
         return self.cur.fetchall()
@@ -53,16 +53,21 @@ class Database():
         self.cur.execute('''DELETE FROM articles WHERE product_id = ?''', (product_id,))
         self.connection.commit()
 
-    def search_by_id(self, product_id: int) -> tuple[int,str,int,int]:
+    def search_by_id(self, product_id: int) -> list[tuple]:
         """search the database by product_id 'could be partial' (int: product) and return the data"""
         like_pattern = f"%{product_id}%"
         self.cur.execute('''SELECT * FROM articles WHERE product_id LIKE ?''', (like_pattern,))
         return self.cur.fetchall()
     
-    def search_by_name(self, product_name: str) -> tuple[int,str,int,int]:
+    def search_by_name(self, product_name: str) -> list[tuple]:
         """search the database by product_id 'could be partial' (int: product) and return the data"""
         like_pattern = f"%{product_name}%"
         self.cur.execute('''SELECT * FROM articles WHERE name LIKE ?''', (like_pattern,))
+        return self.cur.fetchall()
+    
+    def check_storage(self, threshold=5) -> list[tuple]:
+        """check the database for product that are low on the given (default 5) amount"""
+        self.cur.execute('''SELECT * FROM articles WHERE amount <= ?''', (threshold,))
         return self.cur.fetchall()
     
     def __create_table(self):

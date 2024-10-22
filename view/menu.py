@@ -3,8 +3,15 @@ from services.item_services import ItemServices
 
 class Menu():
     def __init__(self):
+        self.stock_warning = False
         self.item_services = ItemServices()
+        self.check_storage()
         self.menue_auswahl()
+
+    def check_storage(self):
+        self.stock_warning = self.item_services.storage_warning()
+        if self.stock_warning:
+            input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
 
     def clear_console(self):
         # Konsole je nach Betriebssystem leeren
@@ -50,12 +57,12 @@ class Menu():
         
         input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
 
-        # Artikel Menu
-        def artikel_anlegen_bearbeiten(self):
-            self.artikel_menue()
+    # Artikel Menu
+    def artikel_anlegen_bearbeiten(self):
+        self.artikel_menue()
 
-        def artikelgruppe_anlegen_bearbeiten(self):
-            self.artikelgr_menue()
+    def artikelgruppe_anlegen_bearbeiten(self):
+        self.artikelgr_menue()
 
     # Artikel Menu
     def artikel_menue(self):
