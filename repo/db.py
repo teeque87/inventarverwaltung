@@ -93,4 +93,3 @@ class Database():
         else:
             self.connection.commit()
         self.connection.close()
-    
