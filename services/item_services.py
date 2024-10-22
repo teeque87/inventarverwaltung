@@ -54,9 +54,21 @@ class ItemServices:
         print(f"Artikel mit der ID {product_id}, Name {name}, Anzahl {amount}, Kategorie {cat_id} zur Datenbank hinzugefügt.")
 
     def search_items(self, search_term: str):
-    """Searches the database for items based on product_id or name."""
-    return self.database.search_items(search_term) 
-    
-    def search_items(self, search_term: str):
-    """Searches the database for items based on product_id or name."""
-    return self.database.search_items(search_term)
+        """Sucht in der Datenbank nach Artikeln basierend auf product_id oder name."""
+        try:
+            # Prüfen, ob die Eingabe eine Zahl ist (ID-Suche)
+            if search_term.isdigit():
+                results = self.db.search_by_id(int(search_term))
+            else:
+                # Falls kein Zahl, wird nach dem Namen gesucht
+                results = self.db.search_by_name(search_term)
+
+            # Falls Ergebnisse vorhanden, Items erstellen
+            if results:
+                items = [Item(product_id, name, amount, cat_id) for product_id, name, amount, cat_id in results]
+                return items
+            else:
+                return []
+        except Exception as e:
+            print(f"Fehler bei der Suche: {e}")
+            return []
