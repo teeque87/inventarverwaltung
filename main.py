@@ -1,7 +1,7 @@
-from view.menu import Menu
+from InventarGui import InventarGUI
 
 def main():
-    Menu()
+    #Menu()
+    app= InventarGUI()
 
-if __name__ == "__main__":
-    main()
+
