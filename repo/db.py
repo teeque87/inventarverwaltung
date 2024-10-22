@@ -54,22 +54,27 @@ class Database():
         self.connection.commit()
 
     def search_by_id(self, product_id: int) -> list[tuple]:
-        """search the database by product_id 'could be partial' (int: product) and return the data"""
-        like_pattern = f"%{product_id}%"
-        self.cur.execute('''SELECT * FROM articles WHERE product_id LIKE ?''', (like_pattern,))
+        """Sucht die Datenbank nach product_id und gibt die Daten zurück."""
+        self.cur.execute('''SELECT * FROM articles WHERE product_id = ?''', (product_id,))
         return self.cur.fetchall()
-    
+
     def search_by_name(self, product_name: str) -> list[tuple]:
-        """search the database by product_id 'could be partial' (int: product) and return the data"""
+        """Sucht die Datenbank nach product_name und gibt die Daten zurück."""
         like_pattern = f"%{product_name}%"
         self.cur.execute('''SELECT * FROM articles WHERE name LIKE ?''', (like_pattern,))
         return self.cur.fetchall()
+
     
     def check_storage(self, threshold=5) -> list[tuple]:
         """check the database for product that are low on the given (default 5) amount"""
         self.cur.execute('''SELECT * FROM articles WHERE amount <= ?''', (threshold,))
         return self.cur.fetchall()
     
+    def update_item_amount(self, product_id: int, new_amount: int):
+        """Aktualisiert die Menge eines Artikels in der Datenbank."""
+        self.cur.execute('''UPDATE articles SET amount = ? WHERE product_id = ?''', (new_amount, product_id))
+        self.connection.commit()
+        
     def __create_table(self):
         """create a database table if it does not exist already"""
         self.cur.execute('''CREATE TABLE IF NOT EXISTS categories(cat_id INTEGER PRIMARY KEY AUTOINCREMENT, cat_name text)''')
@@ -88,3 +93,4 @@ class Database():
         else:
             self.connection.commit()
         self.connection.close()
+    

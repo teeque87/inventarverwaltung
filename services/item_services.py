@@ -53,25 +53,19 @@ class ItemServices:
         self.db.add_to_database((product_id, name, amount, cat_id))
         print(f"Artikel mit der ID {product_id}, Name {name}, Anzahl {amount}, Kategorie {cat_id} zur Datenbank hinzugefügt.")
 
-    def search_items(self, search_term: str):
+    def search_items_id(self, search_term: str):
         """Sucht in der Datenbank nach Artikeln basierend auf product_id oder name."""
-        try:
-            # Prüfen, ob die Eingabe eine Zahl ist (ID-Suche)
-            if search_term.isdigit():
-                results = self.db.search_by_id(int(search_term))
-            else:
-                # Falls kein Zahl, wird nach dem Namen gesucht
-                results = self.db.search_by_name(search_term)
+        results = self.db.search_by_id(search_term)
+        if results:
+            items = [Item(product_id, name, amount, cat_id) for product_id, name, amount, cat_id in results]
+            return items
 
-            # Falls Ergebnisse vorhanden, Items erstellen
-            if results:
-                items = [Item(product_id, name, amount, cat_id) for product_id, name, amount, cat_id in results]
-                return items
-            else:
-                return []
-        except Exception as e:
-            print(f"Fehler bei der Suche: {e}")
-            return []
+    def search_items_name(self, search_term: str):
+        """Sucht in der Datenbank nach Artikeln basierend auf product_id oder name."""
+        results = self.db.search_by_name(search_term)
+        if results:
+            items = [Item(product_id, name, amount, cat_id) for product_id, name, amount, cat_id in results]
+            return items
         
     def storage_warning(self) -> bool:
         results = self.db.check_storage()
@@ -83,3 +77,41 @@ class ItemServices:
             return True
         else:
             return False
+    
+
+    def add_to_stock(self, product_id: int, amount: int):
+        """Erhöht die Menge eines Artikels in der Datenbank um den angegebenen Betrag."""
+        if amount < 0:
+            print("Die Menge muss positiv sein.")
+            return
+
+        # Den aktuellen Artikel abrufen
+        item = self.get_one_item(product_id)
+        
+        if item:
+            new_amount = item.amount + amount
+            self.db.update_item_amount(product_id, new_amount)
+            print(f"Die Menge des Artikels mit der ID {product_id} wurde um {amount} erhöht.")
+        else:
+            print("Artikel nicht gefunden.")
+
+    
+    def remove_from_stock(self, product_id: int, amount: int):
+        """Verringert die Menge eines Artikels in der Datenbank um den angegebenen Betrag."""
+        if amount < 0:
+            print("Die Menge muss positiv sein.")
+            return
+
+        # Den aktuellen Artikel abrufen
+        item = self.get_one_item(product_id)
+        
+        if item:
+            if amount > item.amount:
+                print("Nicht genügend Artikel im Bestand.")
+                return
+            
+            new_amount = item.amount - amount
+            self.db.update_item_amount(product_id, new_amount)
+            print(f"Die Menge des Artikels mit der ID {product_id} wurde um {amount} verringert.")
+        else:
+            print("Artikel nicht gefunden.")

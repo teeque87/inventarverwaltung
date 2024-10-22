@@ -34,11 +34,11 @@ class Menu():
                     print("Ungültige Artikel-ID. Bitte eine Zahl eingeben.")
                     return  # Beendet die Methode, wenn die Eingabe ungültig ist
 
-                results = self.item_services.search_items(str(search_term))  # Suche nach Artikel-ID
+                results = self.item_services.search_items_id(str(search_term))  # Suche nach Artikel-ID
 
             elif auswahl == 2:
                 search_term = input("\nBitte geben Sie den Produktnamen ein: ")
-                results = self.item_services.search_items(search_term)  # Suche nach Produktname
+                results = self.item_services.search_items_name(search_term)  # Suche nach Produktname
 
             else:
                 print("Ungültige Auswahl. Bitte wählen Sie entweder 1 oder 2.")
@@ -196,12 +196,58 @@ class Menu():
             print("Ungültige Eingabe. Bitte geben Sie die Daten erneut ein.")
 
     def wareneingang(self):
-        print("\n[Wareneingang ausgewählt]\n")
-        input("Drücken Sie Enter, um zum Menü zurückzukehren.")
+        self.clear_console()
+        print("\n********** Wareneingang **********")
+    
+        # Artikel suchen
+        search_term = input("Bitte geben Sie die Artikel-ID oder den Produktnamen ein: ")
+        results = self.item_services.search_items(search_term)
 
+        # Ergebnisse anzeigen
+        if results:
+            print("\nGefundene Artikel:")
+            for item in results:
+                print(f"ID: {item.product_id}, Name: {item.name}, Menge: {item.amount}")
+            
+            # Benutzer zur Eingabe der Menge auffordern
+            product_id = int(input("\nBitte geben Sie die Produkt-ID des Artikels ein, den Sie hinzufügen möchten: "))
+            amount_to_add = int(input("Bitte geben Sie die Menge ein, die Sie hinzufügen möchten: "))
+            
+            # Menge hinzufügen
+            self.item_services.add_to_stock(product_id, amount_to_add)
+            self.check_storage()
+        else:
+            print("Keine Artikel gefunden.")
+
+        input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
+
+    
     def warenausgang(self):
-        print("\n[Warenausgang ausgewählt]\n")
-        input("Drücken Sie Enter, um zum Menü zurückzukehren.")
+        self.clear_console()
+        print("\n********** Warenausgang **********")
+
+        # Artikel suchen
+        search_term = input("Bitte geben Sie die Artikel-ID oder den Produktnamen ein: ")
+        results = self.item_services.search_items(search_term)
+
+        # Ergebnisse anzeigen
+        if results:
+            print("\nGefundene Artikel:")
+            for item in results:
+                print(f"ID: {item.product_id}, Name: {item.name}, Menge: {item.amount}")
+            
+            # Benutzer zur Eingabe der Menge auffordern
+            product_id = int(input("\nBitte geben Sie die Produkt-ID des Artikels ein, von dem Sie abziehen möchten: "))
+            amount_to_remove = int(input("Bitte geben Sie die Menge ein, die Sie abziehen möchten: "))
+            
+            # Menge abziehen
+            self.item_services.remove_from_stock(product_id, amount_to_remove)
+            self.check_storage()
+        else:
+            print("Keine Artikel gefunden.")
+
+        input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
+
 
     def inventarliste_ausgeben(self):
         self.clear_console()
