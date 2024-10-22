@@ -100,7 +100,7 @@ class Menu():
                         amount = int(input("Anzahl: "))
                         cat_id = int(input("Kategorie-ID: "))
                         # Adds the new item to the inventory
-                        self.item_services.add_new_entry(product_id, name, amount, cat_id)
+                        self.item_services.add_new_item(product_id, name, amount, cat_id)
                         input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
                     except ValueError:
                         # Error handling for invalid input
@@ -120,7 +120,7 @@ class Menu():
                         amount = int(input("Anzahl: "))
                         cat_id = int(input("Kategorie-ID: "))
                         # Updates the item in the inventory
-                        self.item_services.add_new_entry(product_id, name, amount, cat_id)
+                        self.item_services.add_new_item(product_id, name, amount, cat_id)
                         input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
                     except ValueError:
                         print("Ungültige Eingabe. Bitte geben Sie die Daten erneut ein.")
@@ -135,7 +135,7 @@ class Menu():
                             print(item)
                         # Enter the product ID for deletion
                         product_id = int(input("\nProdukt-ID eingeben: "))
-                        self.item_services.delete_entry(product_id)
+                        self.item_services.delete_item(product_id)
                         input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
                     except ValueError:
                         print("Ungültige Eingabe. Bitte geben Sie die Daten erneut ein.")
