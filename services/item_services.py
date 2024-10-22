@@ -52,3 +52,21 @@ class ItemServices:
     def add_new_entry(self, product_id, name, amount, cat_id):
         self.db.add_to_database((product_id, name, amount, cat_id))
         print(f"Artikel mit der ID {product_id}, Name {name}, Anzahl {amount}, Kategorie {cat_id} zur Datenbank hinzugefügt.")
+
+    def search_item_by_id(self, product_id: int):
+        result = self.db.search_by_id(product_id)
+        if result:
+            for item in result:
+                product_id, name, amount, cat_id = item
+                print(Item(product_id, name, amount, cat_id))
+        else:
+            print(f"Kein Artikel mit der Produkt-ID {product_id} gefunden.")
+
+    def search_item_by_name(self, product_name):
+        result1 = self.db.search_by_name(product_name)
+        if result1:
+            for item in result1:
+                product_id, name, amount, cat_id = item
+                print(Item(product_id, name, amount, cat_id))
+        else:
+            print(f"Kein Artikel mit der Produkt-ID {product_name} gefunden.")

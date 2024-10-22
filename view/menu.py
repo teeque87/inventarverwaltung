@@ -16,7 +16,7 @@ class Menu():
 
     def artikelgruppe_anlegen_bearbeiten(self):
         self.artikelgr_menue()
-    
+
     # Artikel Menu
     def artikel_menue(self):
         while True:
@@ -25,11 +25,13 @@ class Menu():
             print("1. Artikel anlegen")
             print("2. Artikel bearbeiten")
             print("3. Artikel löschen")
-            print("4. Zurück zum Hauptmenü")
+            print("4. Artikel suchen product_id")
+            print("5. Artikel suchen Name")
+            print("6. Zurück zum Hauptmenü")
             print("**************************************************")
             
             try:
-                auswahl = int(input("Bitte wählen Sie eine Option (1-4): "))
+                auswahl = int(input("Bitte wählen Sie eine Option (1-6): "))
                 
                 if auswahl == 1:
                     self.clear_console()
@@ -72,6 +74,30 @@ class Menu():
                         print("Ungültige Eingabe. Bitte geben Sie die Daten erneut ein.")
 
                 elif auswahl == 4:
+                    print("\n******** Artikel suchen product_id ********")
+                    try:
+                        items = self.item_services.get_all_items()
+                        for item in items:
+                            print(item)
+                        product_id = int(input("Produkt-ID eingeben, nach der gesucht werden soll: "))
+                        self.item_services.search_item_by_id(product_id)
+                    except ValueError:
+                        print("Ungültige Eingabe. Bitte geben Sie eine gültige Produkt-ID ein.")
+                    input("Drücken Sie Enter, um zum Menü zurückzukehren.")
+
+                elif auswahl == 5:
+                    print("\n******** Artikel suchen Name ********")
+                    try:
+                        items = self.item_services.get_all_items()
+                        for item in items:
+                            print(item)
+                        product_name = str(input("Produkt-Name eingeben, nach dem gesucht werden soll: "))
+                        self.item_services.search_item_by_name(product_name)
+                    except ValueError:
+                        print("Ungültige Eingabe. Bitte geben Sie einen gültigen Produkt-Naemn ein.")
+                    input("Drücken Sie Enter, um zum Menü zurückzukehren.")
+
+                elif auswahl == 6:
                     self.clear_console()
                     print("Zurück zum Hauptmenü...")
                     break
