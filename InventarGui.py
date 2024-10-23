@@ -6,19 +6,31 @@ from services.item_services import ItemServices
 
 class InventarGUI:
     def __init__(self, root):
+
         self.root = root
         self.root.title("Inventarverwaltung")
-        self.root.geometry("400x400") # wenn vom default abgewichen werden soll, Größeneingabe
+        #self.root.geometry
         self.item_services = ItemServices() # Verbindung zu ItemServices (Controller)
-        self.create_main_menu() # Hauptmenü
+        root.config(bg="#2B2B2B")
+        self.create_main_menu()  # Hauptmenü
+
+        window_width = 700
+        window_height = 400
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+
+        position_x = int((screen_width - window_width) / 2)     # um die Mitte des Bildschirms zu finden
+        position_y = int((screen_height - window_height) / 2)
+        self.root.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")      # Fenster mit Position und Größe einstellen
+
 
     def create_main_menu(self):
         self.clear_frame()
 
-        frame = tk.Frame(self.root)
-        frame.pack(pady=20)
+        frame = tk.Frame(self.root, bg="#2B2B2B")
+        frame.pack(pady=20) #padding y-axis, vertikales padding, def. Abstand zwischen den widgets
 
-        label = tk.Label(frame, text="Inventarverwaltung\nHauptmenü", fg= "#B00E87", font=('Helvetica', 16, 'bold'))
+        label = tk.Label(frame, text="Inventarverwaltung\n - Hauptmenü -", bg="#2B2B2B", fg= "#B00E87", font=('Helvetica', 26, 'bold'))
         label.grid(row=0, column=0, columnspan=2)
 
         options = [
@@ -32,45 +44,27 @@ class InventarGUI:
         ]
 
         for i, (text, command) in enumerate(options): # enumerate erzeugt Index i als auch jeweils Tupel-Paar in Liste (text, command)
-            tk.Label(frame, text=text).grid(row=i+2, column=0, sticky="w", padx=10)
-            btn_select = tk.Button(frame, text="Wählen", command=command)
+            tk.Label(frame, text=text, bg="#2B2B2B", fg="white").grid(row=i+2, column=0, sticky="w", padx=10)
+            btn_select = tk.Button(frame, text="Wählen", bg="#2B2B2B", fg="white", command=command)
             btn_select.grid(row=i+2, column=1, pady=5)
-
-    def search_by_name(self):
-        self.clear_frame()
-        frame = tk.Frame(self.root)
-        frame.pack(pady=20)
-
-        btn_search = tk.Button(frame, text="Suchen", command=lambda: self.display_item(self.item_services.search_items_name(entry_id.get())))
-        btn_search.grid(row=2, column=0, columnspan=2, pady=10)
-
-        btn_back = tk.Button(frame, text="Zurück", command=self.create_main_menu)
-        btn_back.grid(row=3, column=0, columnspan=2, pady=5)
-
-        label = tk.Label(frame, text="Artikel nach Namen suchen", font=("Helvetica", 14))
-        label.grid(row=0, column=0, columnspan=2)
-
-        tk.Label(frame, text="Artikel-Name: ").grid(row=1, column=0)
-        entry_id = tk.Entry(frame)
-        entry_id.grid(row=1, column=1)
 
 
     def search_by_id(self):
         self.clear_frame()
-        frame = tk.Frame(self.root)
-        frame.pack(pady=20)
+        frame = tk.Frame(self.root, bg="#2B2B2B")
+        frame.pack(pady=100)
 
-        label = tk.Label(frame, text="Artikel nach ID suchen", font=("Helvetica", 14))
+        label = tk.Label(frame, text="Artikel nach ID suchen", bg="#2B2B2B", fg= "#B00E87", font=("Helvetica", 14))
         label.grid(row=0, column=0, columnspan=2)
 
-        tk.Label(frame, text="Artikel-ID: ").grid(row=1, column=0)
+        tk.Label(frame, text="Artikel-ID: ", bg="#2B2B2B", fg="white").grid(row=1, column=0)
         entry_id = tk.Entry(frame)
         entry_id.grid(row=1, column=1)
 
-        btn_search = tk.Button(frame, text="Suchen", command=lambda: self.handle_search_by_id((int(entry_id.get()))))
+        btn_search = tk.Button(frame, text="Suchen", bg="#2B2B2B", fg="white", command=lambda: self.handle_search_by_id((int(entry_id.get()))))
         btn_search.grid(row=2, column=0, columnspan=2, pady=10)
 
-        btn_back = tk.Button(frame, text="Zurück", command=self.create_main_menu)
+        btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
         btn_back.grid(row=3, column=0, columnspan=2, pady=5)
 
     def handle_search_by_id(self, product_id):
@@ -88,34 +82,53 @@ class InventarGUI:
         else:
             messagebox.showwarning("Nicht gefunden", "Kein Artikel mit dieser ID gefunden.")
 
-    def add_item(self):
+    def search_by_name(self):
         self.clear_frame()
-        frame = tk.Frame(self.root)
-        frame.pack(pady=20)
+        frame = tk.Frame(self.root, bg="#2B2B2B")
+        frame.pack(pady=100)
 
-        label = tk.Label(frame, text="Neuen Artikel hinzufügen", font=("Helvetica", 14))
+        btn_search = tk.Button(frame, text="Suchen", bg="#2B2B2B", fg="white", command=lambda: self.display_item(self.item_services.search_items_name(entry_id.get())))
+        btn_search.grid(row=2, column=0, columnspan=2, pady=10)
+
+        btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
+        btn_back.grid(row=3, column=0, columnspan=2, pady=5)
+
+        label = tk.Label(frame, text="Artikel nach Namen suchen", bg="#2B2B2B", fg="#B00E87", font=("Helvetica", 14))
         label.grid(row=0, column=0, columnspan=2)
 
-        tk.Label(frame, text="Artikel ID: ").grid(row=1, column=0)
+        tk.Label(frame, text="Artikel-Name: ", bg="#2B2B2B", fg="white").grid(row=1, column=0)
         entry_id = tk.Entry(frame)
         entry_id.grid(row=1, column=1)
 
-        tk.Label(frame, text="Artikelname: ").grid(row=2, column=0)
+
+    def add_item(self):
+        self.clear_frame()
+        frame = tk.Frame(self.root, bg="#2B2B2B")
+        frame.pack(pady=80)
+
+        label = tk.Label(frame, text="Neuen Artikel hinzufügen", bg="#2B2B2B", fg="#B00E87", font=("Helvetica", 14))
+        label.grid(row=0, column=0, columnspan=2)
+
+        tk.Label(frame, text="Artikel ID: ",bg="#2B2B2B", fg="white" ).grid(row=1, column=0)
+        entry_id = tk.Entry(frame)
+        entry_id.grid(row=1, column=1)
+
+        tk.Label(frame, text="Artikelname: ", bg="#2B2B2B", fg="white").grid(row=2, column=0)
         entry_name = tk.Entry(frame)
         entry_name.grid(row=2, column=1)
 
-        tk.Label(frame, text="Menge: ").grid(row=3, column=0)
+        tk.Label(frame, text="Menge: ", bg="#2B2B2B", fg="white").grid(row=3, column=0)
         entry_amount = tk.Entry(frame)
         entry_amount.grid(row=3, column=1)
 
-        tk.Label(frame, text="Kategorie-ID: ").grid(row=4, column=0)
+        tk.Label(frame, text="Kategorie-ID: ", bg="#2B2B2B", fg="white").grid(row=4, column=0)
         entry_category = tk.Entry(frame)
         entry_category.grid(row=4, column=1)
 
-        btn_add = tk.Button(frame, text="Hinzufügen", command=lambda: self.item_services.add_new_item(int(entry_id.get()), entry_name.get(), int(entry_amount.get()), int(entry_category.get())))
+        btn_add = tk.Button(frame, text="Hinzufügen", bg="#2B2B2B", fg="white", command=lambda: self.item_services.add_new_item(int(entry_id.get()), entry_name.get(), int(entry_amount.get()), int(entry_category.get())))
         btn_add.grid(row=5, column=0, columnspan=2, pady=10)
 
-        btn_back = tk.Button(frame, text="Zurück", command=self.create_main_menu)
+        btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
         btn_back.grid(row=6, column=0, columnspan=2, pady=5)
 
     def add_article_to_db(self, name, amount, category):
@@ -126,20 +139,20 @@ class InventarGUI:
 
     def edit_article_by_id(self):
         self.clear_frame()
-        frame = tk.Frame(self.root)
-        frame.pack(pady=20)
+        frame = tk.Frame(self.root, bg="#2B2B2B")
+        frame.pack(pady=80)
 
-        label = tk.Label(frame, text="Artikel nach ID suchen", font=("Helvetica", 14))
+        label = tk.Label(frame, text="Artikel nach ID suchen", bg="#2B2B2B", fg="#B00E87", font=("Helvetica", 14))
         label.grid(row=0, column=0, columnspan=2)
 
-        tk.Label(frame, text="Artikel-ID: ").grid(row=1, column=0)
+        tk.Label(frame, text="Artikel-ID: ", bg="#2B2B2B", fg="white").grid(row=1, column=0)
         entry_id = tk.Entry(frame)
         entry_id.grid(row=1, column=1)
 
-        btn_search = tk.Button(frame, text="Suchen", command=lambda: self.handle_edit_by_id((int(entry_id.get()))))
+        btn_search = tk.Button(frame, text="Suchen", bg="#2B2B2B", fg="white", command=lambda: self.handle_edit_by_id((int(entry_id.get()))))
         btn_search.grid(row=2, column=0, columnspan=2, pady=10)
 
-        btn_back = tk.Button(frame, text="Zurück", command=self.create_main_menu)
+        btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
         btn_back.grid(row=3, column=0, columnspan=2, pady=5)
 
         #try:
@@ -164,56 +177,55 @@ class InventarGUI:
     def edit_item(self, item):
         self.clear_frame()
         self.item = item
-        frame = tk.Frame(self.root)
-        frame.pack(pady=20)
+        frame = tk.Frame(self.root, bg="#2B2B2B")
+        frame.pack(pady=80)
 
-        label = tk.Label(frame, text="Artikel ändern", font=("Helvetica", 14))
+        label = tk.Label(frame, text="Artikel ändern", bg="#2B2B2B", fg="#B00E87", font=("Helvetica", 14))
         label.grid(row=0, column=0, columnspan=2)
 
-        tk.Label(frame, text="Artikel ID: ").grid(row=1, column=0)
+        tk.Label(frame, text="Artikel ID: ", bg="#2B2B2B", fg="white").grid(row=1, column=0)
         entry_id = tk.StringVar()
         entry_id.set(str(self.item.product_id))
         entry_id = tk.Entry(frame, textvariable=entry_id)
         #entry_id.insert(str(self.item.product_id))
         entry_id.grid(row=1, column=1)
 
-        tk.Label(frame, text="Artikelname: ").grid(row=2, column=0)
+        tk.Label(frame, text="Artikelname: ", bg="#2B2B2B", fg="white").grid(row=2, column=0)
         entry_name = tk.Entry(frame)
         entry_name.grid(row=2, column=1)
 
-        tk.Label(frame, text="Menge: ").grid(row=3, column=0)
+        tk.Label(frame, text="Menge: ", bg="#2B2B2B", fg="white").grid(row=3, column=0)
         entry_amount = tk.Entry(frame)
         entry_amount.grid(row=3, column=1)
 
-        tk.Label(frame, text="Kategorie-ID: ").grid(row=4, column=0)
+        tk.Label(frame, text="Kategorie-ID: ", bg="#2B2B2B", fg="white").grid(row=4, column=0)
         entry_category = tk.Entry(frame)
         entry_category.grid(row=4, column=1)
 
-        btn_add = tk.Button(frame, text="Hinzufügen",
-                            command=lambda: self.item_services.add_new_item(int(entry_id.get()), entry_name.get(), int(entry_amount.get()), int(entry_category.get())))
+        btn_add = tk.Button(frame, text="Hinzufügen",bg="#2B2B2B", fg="white", command=lambda: self.item_services.add_new_item(int(entry_id.get()), entry_name.get(), int(entry_amount.get()), int(entry_category.get())))
         btn_add.grid(row=5, column=0, columnspan=2, pady=10)
 
-        btn_back = tk.Button(frame, text="Zurück", command=self.create_main_menu)
+        btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
         btn_back.grid(row=6, column=0, columnspan=2, pady=5)
 
 
     def delete_article(self):
         self.clear_frame()
 
-        frame = tk.Frame(self.root)
-        frame.pack(pady=20)
+        frame = tk.Frame(self.root, bg="#2B2B2B")
+        frame.pack(pady=100)
 
-        label = tk.Label(frame, text="Artikel löschen", font=("Helvetica", 14))
+        label = tk.Label(frame, text="Artikel löschen", bg="#2B2B2B", fg="#B00E87", font=("Helvetica", 14))
         label.grid(row=0, column=0, columnspan=2)
 
-        tk.Label(frame, text="Artikel-ID: ").grid(row=1, column=0)
+        tk.Label(frame, text="Artikel-ID: ", bg="#2B2B2B", fg="white").grid(row=1, column=0)
         entry_id = tk.Entry(frame)
         entry_id.grid(row=1, column=1)
 
-        btn_delete = tk.Button(frame, text="Löschen", command=lambda: self.confirm_delete(int(entry_id.get())))
+        btn_delete = tk.Button(frame, text="Löschen", bg="#2B2B2B", fg="white", command=lambda: self.confirm_delete(int(entry_id.get())))
         btn_delete.grid(row=2, column=0, columnspan=2, pady=10)
 
-        btn_back = tk.Button(frame, text="Zurück", command=self.create_main_menu)
+        btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
         btn_back.grid(row=3, column=0, columnspan=2, pady=5)
 
     def confirm_delete(self, product_id): # fragt Benutzer nach Bestätigung für das Löschen ine einem extra Fenster
@@ -233,15 +245,19 @@ class InventarGUI:
     def display_inventory_list(self):
         self.clear_frame()
 
-        frame = tk.Frame(self.root)
+        frame = tk.Frame(self.root, bg="#2B2B2B")
         frame.pack(pady=20)
 
-        label = tk.Label(frame, text="Inventarliste", font=("Helvetica", 14))
+        label = tk.Label(frame, text="Inventarliste", bg="#2B2B2B", fg="#B00E87", font=("Helvetica", 26))
         label.pack(pady=10)
 
         inventory_list = self.item_services.get_all_items()
         text_area = tk.Text(frame, wrap="word", height=15, width=60)
         text_area.pack(pady=10)
+
+        btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
+        btn_back.pack(pady=5)
+        frame.pack()
 
         for item in inventory_list:
             print(item)
@@ -249,19 +265,12 @@ class InventarGUI:
         text_area.config(state=tk.DISABLED)
         text_area.pack()
 
-        btn_back = tk.Button(frame, text="Zurück", command=self.create_main_menu)
-        btn_back.pack(pady=5)
-        frame.pack()
 
     def quit_program(self):
-        self.root.quit()
-
-    def clear_frame(self):
-        for widget in self.root.winfo_children():
-            widget.destroy()
-
-    def quit_program(self):
-        self.root.quit()
+        #self.root.quit()
+        if messagebox.askyesno("Programm beenden?",
+                               "sind Sie sicher?"):
+            self.root.destroy()
 
     def clear_frame(self):
         for widget in self.root.winfo_children():
