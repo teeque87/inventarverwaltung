@@ -35,7 +35,7 @@ class InventarGUI:
         self.clear_frame()
 
         frame = tk.Frame(self.root, bg="#2B2B2B")
-        frame.pack(pady=20) #padding y-axis, vertikales padding, def. Abstand zwischen den widgets
+        frame.pack(pady=20) # padding y-axis, vertikales padding, def. Abstand zwischen den widgets
 
         label = tk.Label(frame, text="Inventarverwaltung\n - Hauptmenü -", bg="#2B2B2B", fg= "#B00E87", font=('Helvetica', 26, 'bold'))
         label.grid(row=0, column=0, columnspan=2)
@@ -236,7 +236,6 @@ class InventarGUI:
         entry_id = tk.StringVar()
         entry_id.set(str(self.item.product_id))
         entry_id = tk.Entry(frame, textvariable=entry_id)
-        #entry_id.insert(str(self.item.product_id))
         entry_id.grid(row=1, column=1)
 
         tk.Label(frame, text="Artikelname: ", bg="#2B2B2B", fg="white").grid(row=2, column=0)
@@ -318,40 +317,41 @@ class InventarGUI:
         label = tk.Label(frame, text="Inventarliste", bg="#2B2B2B", fg="#B00E87", font=("Helvetica", 26))
         label.pack(pady=10)
 
-        inventory_list = self.item_services.get_all_items()
-
-        text_area.config(state=tk.NORMAL)  # Textfeld editierbar machen
-        text_area.delete(1.0, tk.END)  # Vorherige Inhalte entfernen
         text_area = tk.Text(frame, wrap="word", height=15, width=60)
         text_area.pack(pady=10)
 
-        btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
-        btn_back.pack(pady=5)
-        #btn_refresh = tk.Button(frame, text="Aktualisieren", bg="#2B2B2B", fg="white", command=self.display_inventory_list)
-        #btn_refresh.pack(pady=5)
-        frame.pack()
+        inventory_list = self.item_services.get_all_items() # get Inventarliste
 
         for item in inventory_list:
-            #print(item)
-            text_area.insert(tk.END, f"ID: {item.product_id}, Name: {item.name}, Menge: {item.amount}, Kategorie: {item.category}\n")
-        text_area.config(state=tk.DISABLED)
-        text_area.pack()
+            text_area.insert(tk.END,
+                             f"ID: {item.product_id}, Name: {item.name}, Menge: {item.amount}, Kategorie: {item.category}\n")
+
+        text_area.config(state=tk.DISABLED)  # sperrt Benutzereingabe
+
+        btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
+        btn_back.pack(pady=5)
 
 
     def quit_program(self):
         """
         beendet das Programm nach Messagebox-Abfrage askyesno.
         """
-        #self.root.quit()
         if messagebox.askyesno("Programm beenden?",
                                "sind Sie sicher?"):
             self.root.destroy()
 
-    def clear_frame(self):
+
+    def clear_frame(self, frame=None):
         """
         Löscht den aktuellen Frame und setzt das Layout zurück.
         """
-        for widget in self.root.winfo_children():
+        #for widget in self.root.winfo_children():
+            #widget.destroy()
+
+        if frame is None:
+           frame = self.root
+
+        for widget in frame.winfo_children():
             widget.destroy()
 
 
@@ -360,4 +360,3 @@ if __name__ == "__main__":
    app = InventarGUI(root)
    root.mainloop()
 
-# bei ItemServices muss in Zeile 139 bei delete_item noch der return mit True gesetzt werden, sonst gibt es einen Fehler
