@@ -231,7 +231,11 @@ class Menu():
     
         # articel search
         search_term = input("Bitte geben Sie die Artikel-ID oder den Produktnamen ein: ")
-        results = self.item_services.search_items(search_term)
+        search_term = self.select_type_for_search(search_term)
+        if isinstance(search_term, str):
+            results = self.item_services.search_items_name(search_term)
+        if isinstance(search_term, int):
+            results = self.item_services.search_items_id(search_term)
 
         # show results
         if results:
@@ -258,7 +262,11 @@ class Menu():
 
         # article search
         search_term = input("Bitte geben Sie die Artikel-ID oder den Produktnamen ein: ")
-        results = self.item_services.search_items(search_term)
+        search_term = self.select_type_for_search(search_term)
+        if isinstance(search_term, str):
+            results = self.item_services.search_items_name(search_term)
+        if isinstance(search_term, int):
+            results = self.item_services.search_items_id(search_term)
 
         # show results
         if results:
@@ -277,6 +285,13 @@ class Menu():
             print("Keine Artikel gefunden.")
 
         input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
+
+    def select_type_for_search(self, query:str):
+        try:
+            return int(query)
+        except ValueError:
+            return query
+        
 
     # Output inventory list
     def inventarliste_ausgeben(self):
