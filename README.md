@@ -164,10 +164,6 @@ Folge den Anweisungen auf dem Bildschirm, um die Inventarverwaltung nach Bedarf 
 
 **Zukünftige Verbesserungen**
 
-GUI hinzufügen, um die Benutzererfahrung zu verbessern.
-
-Eine Datenbank für die dauerhafte Speicherung integrieren.
-
 Benutzerauthentifizierung für Multi-User-Zugriff implementieren.
 
 Reporting- und Exportfunktionen (z.B. CSV- oder PDF-Berichte) einbauen.
