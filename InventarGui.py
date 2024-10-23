@@ -317,7 +317,7 @@ class InventarGUI:
         label = tk.Label(frame, text="Inventarliste", bg="#2B2B2B", fg="#B00E87", font=("Helvetica", 26))
         label.pack(pady=10)
 
-        text_area = tk.Text(frame, wrap="word", height=15, width=60)
+        text_area = tk.Text(frame, wrap="word", height=15, width=80)
         text_area.pack(pady=10)
 
         inventory_list = self.item_services.get_all_items() # get Inventarliste
