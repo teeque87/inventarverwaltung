@@ -2,7 +2,6 @@
 from model.item import Item
 from repo.db import Database
 
-
 class ItemServices:
 
     def __init__(self):
@@ -19,7 +18,7 @@ class ItemServices:
         Returns:
             list[tuple]: A list containing the item details in a tuple if found, 
             otherwise an empty list.
-
+    
         Raises:
             Exception: If an error occurs while fetching the item from the database.
         """
@@ -39,7 +38,7 @@ class ItemServices:
         Returns:
             list[tuple]: A list of tuples, each containing details of an item 
             (product_id, name, amount, cat_id).
-
+        
         Raises:
             Exception: If an error occurs while fetching the items from the database.
         """
@@ -51,14 +50,14 @@ class ItemServices:
         except Exception as e:
             print(f"Fehler beim Abrufen aller Artikel: {e}")
             return []
-
+        
     def get_all_categories(self) -> list[tuple]:
         """
         Retrieves all categories from the database.
 
         Returns:
             list[tuple]: A list of tuples containing the category data.
-
+        
         Raises:
             Exception: If an error occurs while fetching the categories from the database.
         """
@@ -69,7 +68,7 @@ class ItemServices:
         except Exception as e:
             print(f"Fehler beim Abrufen aller Kategorien: {e}")
             return []
-
+        
     def new_category(self, name: str):
         """
         Adds a new category to the database.
@@ -86,7 +85,7 @@ class ItemServices:
             print(f"Kategorie {name} hinzugefügt.")
         except Exception as e:
             print(f"Fehler beim erstellen einer neuen Kategorie: {e}")
-
+    
     def edit_category(self, cat_id: int, new_name: str):
         """
         Edits an existing category's name in the database.
@@ -136,8 +135,7 @@ class ItemServices:
             # delete an entry from the database
             self.db.delete_entry(product_id)
             print(f"Artikel mit der ID: {product_id} gelöscht.")
-            return True  # wichtig für die Löschung in der InventarGui
-
+            return True
         except Exception as e:
             print(f"Fehler beim löschen eines Eintrages: {e}")
 
@@ -156,8 +154,7 @@ class ItemServices:
         """
         try:
             self.db.add_to_database((product_id, name, amount, cat_id))
-            print(
-                f"Artikel mit der ID {product_id}, Name {name}, Anzahl {amount}, Kategorie {cat_id} zur Datenbank hinzugefügt.")
+            print(f"Artikel mit der ID {product_id}, Name {name}, Anzahl {amount}, Kategorie {cat_id} zur Datenbank hinzugefügt.")
         except Exception as e:
             print(f"Fehler beim erstellen eines neuen Artikel: {e}")
 
@@ -170,7 +167,7 @@ class ItemServices:
 
         Returns:
             list[tuple]: A list of tuples containing the matching items (product_id, name, amount, cat_id).
-
+        
         Raises:
             Exception: If an error occurs while searching for items by ID.
         """
@@ -191,7 +188,7 @@ class ItemServices:
 
         Returns:
             list[tuple]: A list of tuples containing the matching items (product_id, name, amount, cat_id).
-
+        
         Raises:
             Exception: If an error occurs while searching for items by name.
         """
@@ -202,14 +199,14 @@ class ItemServices:
                 return items
         except Exception as e:
             print(f"Fehler beim Abrufen der Artikel: {e}")
-
+        
     def storage_warning(self) -> bool:
         """
         Checks for items with low stock in the database and prints a warning if any are found.
 
         Returns:
             bool: True if any items are low in stock, False otherwise.
-
+        
         Raises:
             Exception: If an error occurs while checking the stock status.
         """
@@ -226,6 +223,7 @@ class ItemServices:
         except Exception as e:
             print(f"Fehler beim Abrufen des Status: {e}")
             return False
+    
 
     def add_to_stock(self, product_id: int, amount: int):
         """
@@ -246,7 +244,7 @@ class ItemServices:
 
             # fetch the current amount
             item = self.get_one_item(product_id)
-
+        
             if item:
                 new_amount = item.amount + amount
                 self.db.update_item_amount(product_id, new_amount)
@@ -275,16 +273,18 @@ class ItemServices:
 
             # fetch the current amount
             item = self.get_one_item(product_id)
-
+            
             if item:
                 if amount > item.amount:
                     print("Nicht genügend Artikel im Bestand.")
                     return
-
+                
                 new_amount = item.amount - amount
                 self.db.update_item_amount(product_id, new_amount)
                 print(f"Die Menge des Artikels mit der ID {product_id} wurde um {amount} verringert.")
             else:
                 print("Artikel nicht gefunden.")
+                print("Artikel nicht gefunden.")
         except Exception as e:
+            print(f"Fehler beim abziehen vom Bestand: {e}")
             print(f"Fehler beim abziehen vom Bestand: {e}")
