@@ -44,7 +44,7 @@ python --version
 
 Klone das Repository:
 ```
-git clone https://github.com/dein-benutzername/inventarverwaltungssystem.git
+git clone https://github.com/teeque87/inventarverwaltung.git
 ```
 
 Wechsle in das Projektverzeichnis:
