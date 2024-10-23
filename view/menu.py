@@ -228,6 +228,7 @@ class Menu():
     def wareneingang(self):
         self.clear_console()
         print("\n********** Wareneingang **********")
+        results = []
     
         # articel search
         search_term = input("Bitte geben Sie die Artikel-ID oder den Produktnamen ein: ")
@@ -235,7 +236,9 @@ class Menu():
         if isinstance(search_term, str):
             results = self.item_services.search_items_name(search_term)
         if isinstance(search_term, int):
-            results = self.item_services.search_items_id(search_term)
+            response_int = self.item_services.search_items_id(search_term)
+            response_str = self.item_services.search_items_name(search_term)
+            results = response_int + response_str
 
         # show results
         if results:
@@ -259,6 +262,7 @@ class Menu():
     def warenausgang(self):
         self.clear_console()
         print("\n********** Warenausgang **********")
+        results = []
 
         # article search
         search_term = input("Bitte geben Sie die Artikel-ID oder den Produktnamen ein: ")
@@ -266,7 +270,10 @@ class Menu():
         if isinstance(search_term, str):
             results = self.item_services.search_items_name(search_term)
         if isinstance(search_term, int):
-            results = self.item_services.search_items_id(search_term)
+            response_int = self.item_services.search_items_id(search_term)
+            response_str = self.item_services.search_items_name(search_term)
+            results = response_int + response_str
+
 
         # show results
         if results:
