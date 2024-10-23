@@ -1,4 +1,4 @@
-import tkinter
+
 import tkinter as tk
 from tkinter import messagebox # Modul stellt Dialogboxen für verschiedene Meldungen zur Verfügung (z.B. in confirm_delete oder als Exception Anzeige)
 from services.item_services import ItemServices
@@ -6,7 +6,11 @@ from services.item_services import ItemServices
 
 class InventarGUI:
     def __init__(self, root):
+        """
+        Initialisiert die GUI der Inventarverwaltung.
 
+        :param root: Das Hauptfenster der Tkinter-Anwendung.
+        """
         self.root = root
         self.root.title("Inventarverwaltung")
         #self.root.geometry
@@ -25,6 +29,9 @@ class InventarGUI:
 
 
     def create_main_menu(self):
+        """
+        Erstellt das Hauptmenü der Anwendung und fügt alle Menüoptionen hinzu.
+        """
         self.clear_frame()
 
         frame = tk.Frame(self.root, bg="#2B2B2B")
@@ -50,6 +57,9 @@ class InventarGUI:
 
 
     def search_by_id(self):
+        """
+        Zeigt ein Eingabefeld zur Suche von Artikeln nach ID an.
+        """
         self.clear_frame()
         frame = tk.Frame(self.root, bg="#2B2B2B")
         frame.pack(pady=100)
@@ -68,6 +78,11 @@ class InventarGUI:
         btn_back.grid(row=3, column=0, columnspan=2, pady=5)
 
     def handle_search_by_id(self, product_id):
+        """
+        Handhabt die Suche eines Artikels anhand der gegebenen ID und zeigt den Artikel an.
+
+        :param product_id: Die ID des zu suchenden Artikels.
+        """
         try:
             all_items = self.item_services.search_items_id(product_id)
             for item in all_items:
@@ -77,12 +92,20 @@ class InventarGUI:
             messagebox.showerror("Fehler", f"Ein Fehler ist aufgetreten: {e}")
 
     def display_item(self, item):
+        """
+        Zeigt die Informationen eines gefundenen Artikels in einer Dialogbox an.
+
+        :param item: Der gefundene Artikel.
+        """
         if item:
             messagebox.showinfo("Artikel gefunden", f"ID: {item.product_id}, Name: {item.name}, Menge: {item.amount}, Kategorie: {item.category}")
         else:
             messagebox.showwarning("Nicht gefunden", "Kein Artikel mit dieser ID gefunden.")
 
     def search_by_name(self):
+        """
+        Zeigt ein Eingabefeld zur Suche von Artikeln anhand ihres Namens an.
+        """
         self.clear_frame()
         frame = tk.Frame(self.root, bg="#2B2B2B")
         frame.pack(pady=100)
@@ -102,6 +125,9 @@ class InventarGUI:
 
 
     def add_item(self):
+        """
+        Zeigt ein Eingabefeld zur Hinzufügung eines neuen Artikels an.
+        """
         self.clear_frame()
         frame = tk.Frame(self.root, bg="#2B2B2B")
         frame.pack(pady=80)
@@ -132,12 +158,22 @@ class InventarGUI:
         btn_back.grid(row=6, column=0, columnspan=2, pady=5)
 
     def add_article_to_db(self, name, amount, category):
+        """
+        Fügt einen neuen Artikel zur Datenbank hinzu und zeigt Status in Messagebox an.
+
+        :param name: Der Name des neuen Artikels.
+        :param amount: Die Menge des neuen Artikels.
+        :param category: Die Kategorie-ID des neuen Artikels.
+        """
         if self.item_services.add_new_item(name, amount, category):
             messagebox.showinfo("Erfolg", "Artikel erfolgreich hinzugefügt.")
         else:
             messagebox.showerror("Fehler", "Fehler beim Hinzufügen des Artikels.")
 
     def edit_article_by_id(self):
+        """
+        Zeigt ein Eingabefeld zur Bearbeitung eines Artikels anhand seiner ID an.
+        """
         self.clear_frame()
         frame = tk.Frame(self.root, bg="#2B2B2B")
         frame.pack(pady=80)
@@ -210,6 +246,9 @@ class InventarGUI:
 
 
     def delete_article(self):
+        """
+        Zeigt ein Eingabefeld zur Löschung eines Artikels anhand seiner ID an.
+        """
         self.clear_frame()
 
         frame = tk.Frame(self.root, bg="#2B2B2B")
@@ -229,7 +268,11 @@ class InventarGUI:
         btn_back.grid(row=3, column=0, columnspan=2, pady=5)
 
     def confirm_delete(self, product_id): # fragt Benutzer nach Bestätigung für das Löschen ine einem extra Fenster
+        """
+        Bestätigt die Löschung eines Artikels und führt die Löschaktion aus.
 
+        :param product_id: Die ID des zu löschenden Artikels.
+        """
         if messagebox.askyesno("Bestätigung", "Möchten Sie diesen Artikel wirklich löschen?"): # askyesno-Methode gibt ja=true und nein=false zurück
             try:
                 product_id = int(product_id)
@@ -243,6 +286,9 @@ class InventarGUI:
                 messagebox.showerror("Fehler", f"Ein Fehler ist aufgetreten: {e}")
 
     def display_inventory_list(self):
+        """
+        Zeigt eine Liste aller Artikel im Inventar in einer Dialogbox an.
+        """
         self.clear_frame()
 
         frame = tk.Frame(self.root, bg="#2B2B2B")
@@ -267,12 +313,18 @@ class InventarGUI:
 
 
     def quit_program(self):
+        """
+        beendet das Programm nach Messagebox-Abfrage askyesno.
+        """
         #self.root.quit()
         if messagebox.askyesno("Programm beenden?",
                                "sind Sie sicher?"):
             self.root.destroy()
 
     def clear_frame(self):
+        """
+        Löscht den aktuellen Frame und setzt das Layout zurück.
+        """
         for widget in self.root.winfo_children():
             widget.destroy()
 
