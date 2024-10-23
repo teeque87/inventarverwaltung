@@ -77,6 +77,7 @@ class InventarGUI:
         btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
         btn_back.grid(row=3, column=0, columnspan=2, pady=5)
 
+
     def handle_search_by_id(self, product_id):
         """
         Handhabt die Suche eines Artikels anhand der gegebenen ID und zeigt den Artikel an.
@@ -91,16 +92,19 @@ class InventarGUI:
         except Exception as e:
             messagebox.showerror("Fehler", f"Ein Fehler ist aufgetreten: {e}")
 
+
     def display_item(self, item):
         """
         Zeigt die Informationen eines gefundenen Artikels in einer Dialogbox an.
 
         :param item: Der gefundene Artikel.
         """
+        #print(item)
         if item:
             messagebox.showinfo("Artikel gefunden", f"ID: {item.product_id}, Name: {item.name}, Menge: {item.amount}, Kategorie: {item.category}")
         else:
             messagebox.showwarning("Nicht gefunden", "Kein Artikel mit dieser ID gefunden.")
+
 
     def search_by_name(self):
         """
@@ -110,7 +114,11 @@ class InventarGUI:
         frame = tk.Frame(self.root, bg="#2B2B2B")
         frame.pack(pady=100)
 
-        btn_search = tk.Button(frame, text="Suchen", bg="#2B2B2B", fg="white", command=lambda: self.display_item(self.item_services.search_items_name(entry_id.get())))
+        tk.Label(frame, text="Artikel-Name: ", bg="#2B2B2B", fg="white").grid(row=1, column=0)
+        entry_name = tk.Entry(frame)
+        entry_name.grid(row=1, column=1)
+
+        btn_search = tk.Button(frame, text="Suchen", bg="#2B2B2B", fg="white", command=lambda: self.handle_search_by_name(entry_name.get()))
         btn_search.grid(row=2, column=0, columnspan=2, pady=10)
 
         btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
@@ -119,9 +127,20 @@ class InventarGUI:
         label = tk.Label(frame, text="Artikel nach Namen suchen", bg="#2B2B2B", fg="#B00E87", font=("Helvetica", 14))
         label.grid(row=0, column=0, columnspan=2)
 
-        tk.Label(frame, text="Artikel-Name: ", bg="#2B2B2B", fg="white").grid(row=1, column=0)
-        entry_id = tk.Entry(frame)
-        entry_id.grid(row=1, column=1)
+
+    def handle_search_by_name(self, product_name):
+        """
+        Handhabt die Suche eines Artikels anhand des eingegebenen Namens und zeigt den Artikel an.
+
+        :param product_name: Name des zu suchenden Artikels.
+        """
+        try:
+            all_items = self.item_services.search_items_name(product_name)
+            for item in all_items:
+                # print(item)
+                self.display_item(item)
+        except Exception as e:
+            messagebox.showerror("Fehler", f"Ein Fehler ist aufgetreten: {e}")
 
 
     def add_item(self):
@@ -157,6 +176,7 @@ class InventarGUI:
         btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
         btn_back.grid(row=6, column=0, columnspan=2, pady=5)
 
+
     def add_article_to_db(self, name, amount, category):
         """
         Fügt einen neuen Artikel zur Datenbank hinzu und zeigt Status in Messagebox an.
@@ -169,6 +189,7 @@ class InventarGUI:
             messagebox.showinfo("Erfolg", "Artikel erfolgreich hinzugefügt.")
         else:
             messagebox.showerror("Fehler", "Fehler beim Hinzufügen des Artikels.")
+
 
     def edit_article_by_id(self):
         """
@@ -191,15 +212,6 @@ class InventarGUI:
         btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
         btn_back.grid(row=3, column=0, columnspan=2, pady=5)
 
-        #try:
-            #if amount < 0:
-                #raise ValueError("Die Menge muss größer oder gleich 0 sein.")
-
-            #self.item_services.add_new_item((product_id, name, amount, cat_id))
-            #return True  # Rückgabe, um den Erfolg zu kennzeichnen
-       # except Exception as e:
-            #print(f"Fehler beim Aktualisieren des Artikels: {e}")
-           # return False  # Rückgabe bei Fehlern
 
     def handle_edit_by_id(self, product_id):
         try:
@@ -209,6 +221,7 @@ class InventarGUI:
                 self.edit_item(item)
         except Exception as e:
             messagebox.showerror("Fehler", f"Ein Fehler ist aufgetreten: {e}")
+
 
     def edit_item(self, item):
         self.clear_frame()
@@ -227,18 +240,24 @@ class InventarGUI:
         entry_id.grid(row=1, column=1)
 
         tk.Label(frame, text="Artikelname: ", bg="#2B2B2B", fg="white").grid(row=2, column=0)
-        entry_name = tk.Entry(frame)
+        entry_name = tk.StringVar()
+        entry_name.set(str(self.item.name))
+        entry_name = tk.Entry(frame, textvariable=entry_name)
         entry_name.grid(row=2, column=1)
 
         tk.Label(frame, text="Menge: ", bg="#2B2B2B", fg="white").grid(row=3, column=0)
-        entry_amount = tk.Entry(frame)
+        entry_amount = tk.StringVar()
+        entry_amount.set(str(self.item.amount))
+        entry_amount = tk.Entry(frame, textvariable=entry_amount)
         entry_amount.grid(row=3, column=1)
 
         tk.Label(frame, text="Kategorie-ID: ", bg="#2B2B2B", fg="white").grid(row=4, column=0)
-        entry_category = tk.Entry(frame)
+        entry_category = tk.StringVar()
+        entry_category.set(str(self.item.category))
+        entry_category = tk.Entry(frame, textvariable=entry_category)
         entry_category.grid(row=4, column=1)
 
-        btn_add = tk.Button(frame, text="Hinzufügen",bg="#2B2B2B", fg="white", command=lambda: self.item_services.add_new_item(int(entry_id.get()), entry_name.get(), int(entry_amount.get()), int(entry_category.get())))
+        btn_add = tk.Button(frame, text="Ändern",bg="#2B2B2B", fg="white", command=lambda: self.item_services.add_new_item(int(entry_id.get()), entry_name.get(), int(entry_amount.get()), int(entry_category.get())))
         btn_add.grid(row=5, column=0, columnspan=2, pady=10)
 
         btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
@@ -267,6 +286,7 @@ class InventarGUI:
         btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
         btn_back.grid(row=3, column=0, columnspan=2, pady=5)
 
+
     def confirm_delete(self, product_id): # fragt Benutzer nach Bestätigung für das Löschen ine einem extra Fenster
         """
         Bestätigt die Löschung eines Artikels und führt die Löschaktion aus.
@@ -285,6 +305,7 @@ class InventarGUI:
             except Exception as e:
                 messagebox.showerror("Fehler", f"Ein Fehler ist aufgetreten: {e}")
 
+
     def display_inventory_list(self):
         """
         Zeigt eine Liste aller Artikel im Inventar in einer Dialogbox an.
@@ -298,15 +319,20 @@ class InventarGUI:
         label.pack(pady=10)
 
         inventory_list = self.item_services.get_all_items()
+
+        text_area.config(state=tk.NORMAL)  # Textfeld editierbar machen
+        text_area.delete(1.0, tk.END)  # Vorherige Inhalte entfernen
         text_area = tk.Text(frame, wrap="word", height=15, width=60)
         text_area.pack(pady=10)
 
         btn_back = tk.Button(frame, text="Zurück", bg="#2B2B2B", fg="white", command=self.create_main_menu)
         btn_back.pack(pady=5)
+        #btn_refresh = tk.Button(frame, text="Aktualisieren", bg="#2B2B2B", fg="white", command=self.display_inventory_list)
+        #btn_refresh.pack(pady=5)
         frame.pack()
 
         for item in inventory_list:
-            print(item)
+            #print(item)
             text_area.insert(tk.END, f"ID: {item.product_id}, Name: {item.name}, Menge: {item.amount}, Kategorie: {item.category}\n")
         text_area.config(state=tk.DISABLED)
         text_area.pack()
