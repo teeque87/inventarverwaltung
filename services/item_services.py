@@ -284,5 +284,7 @@ class ItemServices:
                 print(f"Die Menge des Artikels mit der ID {product_id} wurde um {amount} verringert.")
             else:
                 print("Artikel nicht gefunden.")
+                print("Artikel nicht gefunden.")
         except Exception as e:
+            print(f"Fehler beim abziehen vom Bestand: {e}")
             print(f"Fehler beim abziehen vom Bestand: {e}")
