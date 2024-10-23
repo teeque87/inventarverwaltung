@@ -135,6 +135,7 @@ class ItemServices:
             # delete an entry from the database
             self.db.delete_entry(product_id)
             print(f"Artikel mit der ID: {product_id} gelöscht.")
+            return True
         except Exception as e:
             print(f"Fehler beim löschen eines Eintrages: {e}")
 
