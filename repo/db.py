@@ -79,6 +79,11 @@ class Database():
         self.cur.execute('''SELECT 1 FROM users WHERE username = ?''', (user_name,))
         return self.cur.fetchone()
 
+    def verify_user_password(self, user_name: str):
+        """get the user by username and returns all data to this user"""
+        self.cur.execute('''SELECT * FROM users WHERE username = ?''', (user_name,))
+        return self.cur.fetchone()
+
     def add_new_user(self, user_name: str, hashed_password: str):
         """add new user (string: user_name, sting: hashed_password) to the database"""
         # add user if the user does not exist
