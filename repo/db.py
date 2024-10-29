@@ -74,14 +74,14 @@ class Database():
         self.cur.execute('''UPDATE articles SET amount = ? WHERE product_id = ?''', (new_amount, product_id))
         self.connection.commit()
 
-    def add_new_user(self, user_name: str, password: str):
-        """add new user (string: user_name) to the database and replace categorie if already exists (cat_id)"""
+    def add_new_user(self, user_name: str, hashed_password: str):
+        """add new user (string: user_name) to the database"""
         self.cur.execute('''SELECT 1 FROM users WHERE username = ?''', (user_name,))
         user_exists = self.cur.fetchone() is not None
 
         # add user if the user does not exitst
         if not user_exists:
-            self.cur.execute('''INSERT INTO users (username, password) VALUES(?, ?)''', (user_name, password))
+            self.cur.execute('''INSERT INTO users (username, hashed_password) VALUES(?, ?)''', (user_name, hashed_password))
             self.connection.commit()
             print(f"User '{user_name}' wurde erfolgreich hinzugefügt.")
         else:
@@ -98,7 +98,7 @@ class Database():
         self.connection.commit()
         self.cur.execute('''CREATE TABLE IF NOT EXISTS articles(product_id integer PRIMARY KEY, name text, amount integer, cat_id integer, FOREIGN KEY (cat_id) REFERENCES categories(cat_id))''')
         self.connection.commit()
-        self.cur.execute('''CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT, username text NOT NULL UNIQUE, password text NOT NULL)''')
+        self.cur.execute('''CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT, username text NOT NULL UNIQUE, hashed_password text NOT NULL)''')
         self.connection.commit()
 
     def __enter__(self):
