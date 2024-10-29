@@ -73,12 +73,32 @@ class Database():
         """updates the amount by an item in the database given the product_id and the new_amount"""
         self.cur.execute('''UPDATE articles SET amount = ? WHERE product_id = ?''', (new_amount, product_id))
         self.connection.commit()
-        
+
+    def add_new_user(self, user_name: str, password: str):
+        """add new user (string: user_name) to the database and replace categorie if already exists (cat_id)"""
+        self.cur.execute('''SELECT 1 FROM users WHERE username = ?''', (user_name,))
+        user_exists = self.cur.fetchone() is not None
+
+        # add user if the user does not exitst
+        if not user_exists:
+            self.cur.execute('''INSERT INTO users (username, password) VALUES(?, ?)''', (user_name, password))
+            self.connection.commit()
+            print(f"User '{user_name}' wurde erfolgreich hinzugefügt.")
+        else:
+            print(f"User '{user_name}' existiert bereits.")
+
+    def delete_user(self, user_name: str):
+        """delete an user (str: user_name) from the database"""
+        self.cur.execute('''DELETE FROM users WHERE user_name = ?''', (user_name,))
+        self.connection.commit()
+
     def __create_table(self):
         """create database tables if it does not exist already"""
         self.cur.execute('''CREATE TABLE IF NOT EXISTS categories(cat_id INTEGER PRIMARY KEY AUTOINCREMENT, cat_name text)''')
         self.connection.commit()
         self.cur.execute('''CREATE TABLE IF NOT EXISTS articles(product_id integer PRIMARY KEY, name text, amount integer, cat_id integer, FOREIGN KEY (cat_id) REFERENCES categories(cat_id))''')
+        self.connection.commit()
+        self.cur.execute('''CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT, username text NOT NULL UNIQUE, password text NOT NULL)''')
         self.connection.commit()
 
     def __enter__(self):
