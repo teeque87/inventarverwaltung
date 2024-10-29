@@ -323,8 +323,7 @@ class InventarGUI:
         inventory_list = self.item_services.get_all_items() # get Inventarliste
 
         for item in inventory_list:
-            text_area.insert(tk.END,
-                             f"ID: {item.product_id}, Name: {item.name}, Menge: {item.amount}, Kategorie: {item.category}\n")
+            text_area.insert(tk.END, f"ID: {item.product_id}, Name: {item.name}, Menge: {item.amount}, Kategorie: {item.category}\n")
 
         text_area.config(state=tk.DISABLED)  # sperrt Benutzereingabe
 
