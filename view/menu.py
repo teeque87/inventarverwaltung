@@ -228,10 +228,17 @@ class Menu():
     def wareneingang(self):
         self.clear_console()
         print("\n********** Wareneingang **********")
+        results = []
     
         # articel search
         search_term = input("Bitte geben Sie die Artikel-ID oder den Produktnamen ein: ")
-        results = self.item_services.search_items(search_term)
+        search_term = self.select_type_for_search(search_term)
+        if isinstance(search_term, str):
+            results = self.item_services.search_items_name(search_term)
+        if isinstance(search_term, int):
+            response_int = self.item_services.search_items_id(search_term)
+            response_str = self.item_services.search_items_name(search_term)
+            results = response_int + response_str
 
         # show results
         if results:
@@ -255,10 +262,18 @@ class Menu():
     def warenausgang(self):
         self.clear_console()
         print("\n********** Warenausgang **********")
+        results = []
 
         # article search
         search_term = input("Bitte geben Sie die Artikel-ID oder den Produktnamen ein: ")
-        results = self.item_services.search_items(search_term)
+        search_term = self.select_type_for_search(search_term)
+        if isinstance(search_term, str):
+            results = self.item_services.search_items_name(search_term)
+        if isinstance(search_term, int):
+            response_int = self.item_services.search_items_id(search_term)
+            response_str = self.item_services.search_items_name(search_term)
+            results = response_int + response_str
+
 
         # show results
         if results:
@@ -277,6 +292,13 @@ class Menu():
             print("Keine Artikel gefunden.")
 
         input("\nDrücken Sie Enter, um zum Menü zurückzukehren.")
+
+    def select_type_for_search(self, query:str):
+        try:
+            return int(query)
+        except ValueError:
+            return query
+        
 
     # Output inventory list
     def inventarliste_ausgeben(self):
