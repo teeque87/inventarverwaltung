@@ -81,7 +81,7 @@ class Database():
 
     def verify_user_password(self, user_name: str):
         """get the user by username and returns all data to this user"""
-        self.cur.execute('''SELECT * FROM users WHERE username = ?''', (user_name,))
+        self.cur.execute('''SELECT hashed_password FROM users WHERE username = ?''', (user_name,))
         return self.cur.fetchone()
 
     def add_new_user(self, user_name: str, hashed_password: str):
