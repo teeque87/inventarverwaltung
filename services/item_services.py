@@ -217,7 +217,7 @@ class ItemServices:
                 print("\n******** WARNUNG ********\nFolgende Artikel sind niedrig im Bestand\n")
                 for item in items:
                     print(item)
-                return True
+                return items
             else:
                 return False
         except Exception as e:

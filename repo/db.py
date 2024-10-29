@@ -6,12 +6,9 @@ class Database():
 
     def __init__(self):
         # initialize db class variables and set cursor
-        self.connection = sqlite3.connect(Database.__DB_LOCATION)
+        self.connection = sqlite3.connect(Database.__DB_LOCATION, check_same_thread=False)
         self.cur = self.connection.cursor()
         self.__create_table()
-
-    def __del__(self):
-        self.connection.close()
 
     def fetch_all(self) -> list[tuple]:
         """method to get all articles from the database."""
