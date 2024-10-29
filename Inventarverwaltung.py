@@ -1,6 +1,5 @@
 import streamlit as st
-import time
-
+from services.user_services import UserServices
 
 st.set_page_config(
     page_title="Inventarverwaltungssystem",
@@ -30,7 +29,10 @@ def check_password():
 
     def password_entered():
         """Checks whether a password entered by the user is correct."""
-        if st.session_state["username"] == "test" and st.session_state["password"] == "test":
+        user_services = UserServices()
+        is_valid = user_services.verify_password(st.session_state["username"], st.session_state["password"])
+        print(is_valid)
+        if is_valid:
             st.session_state["logged_in"] = True
             del st.session_state["password"]  # Don't store the username or password.
             del st.session_state["username"]

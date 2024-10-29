@@ -77,7 +77,7 @@ class Database():
 
     def get_user_by_username(self, user_name: str) -> bool:
         """checks if the user_name already exists"""
-        self.cur.execute('''SELECT 1 FROM users WHERE username = ?''', (user_name,))
+        self.cur.execute('''SELECT username, hashed_password FROM users WHERE username = ?''', (user_name,))
         return self.cur.fetchone()
 
     def verify_user_password(self, user_name: str):
