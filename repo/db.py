@@ -74,13 +74,15 @@ class Database():
         self.cur.execute('''UPDATE articles SET amount = ? WHERE product_id = ?''', (new_amount, product_id))
         self.connection.commit()
 
-    def add_new_user(self, user_name: str, hashed_password: str):
-        """add new user (string: user_name) to the database"""
+    def get_user_by_username(self, user_name: str) -> bool:
+        """checks if the user_name already exists"""
         self.cur.execute('''SELECT 1 FROM users WHERE username = ?''', (user_name,))
-        user_exists = self.cur.fetchone() is not None
+        return self.cur.fetchone()
 
-        # add user if the user does not exitst
-        if not user_exists:
+    def add_new_user(self, user_name: str, hashed_password: str):
+        """add new user (string: user_name, sting: hashed_password) to the database"""
+        # add user if the user does not exist
+        if not self.get_user_by_username(user_name):
             self.cur.execute('''INSERT INTO users (username, hashed_password) VALUES(?, ?)''', (user_name, hashed_password))
             self.connection.commit()
             print(f"User '{user_name}' wurde erfolgreich hinzugefügt.")
