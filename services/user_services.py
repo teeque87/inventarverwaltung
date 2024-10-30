@@ -56,7 +56,10 @@ class UserServices:
         else:
             print("Benutzer existiert nicht.")
             return False
-
+        
+    def get_all_users(self):
+        """Ruft eine Liste aller Benutzer ab."""
+        return self.db.get_all_users()
 
 # Beispiel, hinterher rauslöschen
 if __name__ == "__main__":

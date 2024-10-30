@@ -10,7 +10,7 @@ class Database():
         self.connection = sqlite3.connect(Database.__DB_LOCATION, check_same_thread=False)
         self.cur = self.connection.cursor()
         self.__create_table()
-
+        
     def fetch_all(self) -> list[tuple]:
         """method to get all articles from the database."""
         self.cur.execute(
@@ -100,6 +100,11 @@ class Database():
         """delete an user (str: user_name) from the database"""
         self.cur.execute('''DELETE FROM users WHERE user_name = ?''', (user_name,))
         self.connection.commit()
+
+    def get_all_users(self):
+        """Gibt alle Benutzernamen zurück."""
+        self.cur.execute('''SELECT id,username FROM users ''')
+        return self.cur.fetchall()
 
     def __create_table(self):
         """create database tables if it does not exist already"""
