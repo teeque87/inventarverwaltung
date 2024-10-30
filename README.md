@@ -110,7 +110,7 @@ Folge den Anweisungen auf dem Bildschirm, um die Inventarverwaltung nach Bedarf 
 Reporting- und Exportfunktionen (z.B. CSV- oder PDF-Berichte) einbauen.
 
 
-# Inventarverwaltungssystem Version mit Gui (zwei verschiedene GUI)
+# Inventarverwaltungssystem Version mit Gui (tkinter)
 
 Dieses Projekt ist ein **Inventarverwaltungssystem** mit einer grafischen Benutzeroberfläche (GUI), das auf Python und dem Tkinter-Framework basiert. Es ermöglicht die Verwaltung eines Inventars durch Hinzufügen, Bearbeiten, Löschen und Suchen von Artikeln. Es bietet auch eine Übersicht über das gesamte Inventar.
 
