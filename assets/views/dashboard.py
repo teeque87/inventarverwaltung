@@ -29,15 +29,25 @@ def edit_item(selected_index):
     _name = st.text_input("Produktname", selected_data.iloc[1])
     _amount = st.text_input("Menge", selected_data.iloc[2])
     _category = st.selectbox("Kategorien: ", _cats, index=_catindex)
-    col1_, col2_ = st.columns([1,1])
-    with col1_:
-        if st.button("Speichern"):
-            _cat = _cats.index(_category) + 1
-            # Save the new values from the textboxes to the database
-            item_services.add_new_item(_product_id, _name, _amount, _cat)
+    if st.button("Speichern", key="save"):
+        _categories = item_services.get_all_categories()
+        for _id_cat, _name in _categories:
+            if _name == _category:
+                item_services.add_new_item(_product_id, _name, _amount, _id_cat)
+                st.rerun()
+
+# Function to open a dialog to confirm deletion
+@st.dialog("Wirklich löschen?")
+def delete_item(_id, action):
+    if action == "product":
+        st.write(f"Artikel mit Artikelnummer: {_id} wirklich löschen?")
+        if st.button("Bestätigen", key="confirm_delete"):
+            item_services.delete_item(_id)
             st.rerun()
-    with col2_:
-        if st.button("Abbrechen"):
+    if action == "category":
+        st.write(f"Kategorie mit der ID: {_id} wirklich löschen?")
+        if st.button("Bestätigen", key="confirm_delete"):
+            item_services.delete_category(_id)
             st.rerun()
 
 product_ids = []
@@ -65,16 +75,109 @@ st.dataframe(df, column_config={
                 "category": "Kategorie"
             }, hide_index=True, use_container_width=True)
 
-# Display a selectbox, formatting and checking if something has been selected
-row_details = [f"{row['product_id']:10} - {row['name']:10} - Menge: {row['amount']:10} - Kategorie: {row['category']}" for _, row in df.iterrows()]
-row_details = ["Bitte wählen..."] + row_details
-selected_item = st.selectbox("Wähle einen Datensatz der bearbeitet werden soll:", row_details)
-selected_index = row_details.index(selected_item)
-if selected_item != "Bitte wählen...":
-    edit_item(selected_index - 1)
 
-# Count items for the bar chart and display it
-category_counts = df["category"].value_counts().reset_index()
-category_counts.columns = ["Kategorie", "Anzahl"]
 
-st.bar_chart(category_counts.set_index("Kategorie"))
+
+st.sidebar.title("Artikel")
+action = st.sidebar.selectbox("Wähle eine Aktion:", ["Artikel bearbeiten", "Artikel erstellen", "Artikel löschen", "Statistiken"])
+
+if action == "Artikel bearbeiten":
+    # Display a selectbox, formatting and checking if something has been selected
+    row_details = [f"{row['product_id']:10} - {row['name']:10} - Menge: {row['amount']:10} - Kategorie: {row['category']}" for _, row in df.iterrows()]
+    row_details = ["Bitte wählen..."] + row_details
+    selected_item = st.selectbox("Wähle einen Datensatz der bearbeitet werden soll:", row_details)
+    selected_index = row_details.index(selected_item)
+    if selected_item != "Bitte wählen...":
+        edit_item(selected_index - 1)
+
+elif action == "Artikel erstellen":
+    # Iterate through the categories to get the names to populate the selectbox
+    _cats = []
+    _catindex = 0
+
+    for cat in cats:
+        _cats.append(cat[1])
+
+    # Define all the text input fields with their prefilled values
+    _product_id = st.text_input("Artikelnummer")
+    _name = st.text_input("Produktname")
+    _amount = st.text_input("Menge")
+    _category = st.selectbox("Kategorien: ", _cats, index=_catindex)
+    
+    if st.button("Speichern", key="save_new") and _product_id != "" and _name != "" and _amount != "":
+        _categories = item_services.get_all_categories()
+        for _id_cat, _name in _categories:
+            if _name == _category:
+                # Save the new values from the textboxes to the database
+                item_services.add_new_item(_product_id, _name, _amount, _id_cat)
+                st.rerun()
+
+elif action == "Artikel löschen":
+    st.subheader("Artikel löschen")
+    _product_id = st.text_input("Artikelnummer")
+    if st.button("Löschen", key="delete"):
+        delete_item(_product_id, "product")
+
+
+elif action == "Statistiken":
+    col1, col2 = st.columns(2)
+
+    # Count items for the bar chart and display it
+    with col1:
+        category_counts = df["category"].value_counts().reset_index()
+        category_counts.columns = ["Kategorie", "Anzahl"]
+
+        st.bar_chart(category_counts.set_index("Kategorie"))
+
+    with col2:
+        amount_of_articles = len(product_ids)
+        st.metric("Artikel", amount_of_articles)
+
+        total_amount = 0
+        for i in amounts:
+            total_amount = total_amount + i
+        st.metric("Lagerbestand", total_amount)
+
+st.sidebar.title("Kategorien")
+action_cat = st.sidebar.selectbox("Wähle eine Aktion:", ["Bitte Wählen...", "Kategorie anlegen", "Kategorie bearbeiten", "Kategorie löschen"])
+
+if action_cat == "Bitte Wählen...":
+    pass
+
+if action_cat == "Kategorie anlegen":
+    st.subheader("Kategorie anlegen")
+    cat_input = st.text_input("Name der Kategorie")
+    if st.button("Hinzufügen") and cat_input != "":
+        item_services.new_category(cat_input)
+
+elif action_cat == "Kategorie bearbeiten":
+    st.subheader("Kategorie bearbeiten")
+    _categories = item_services.get_all_categories()
+    st.dataframe(_categories, use_container_width=True, hide_index=True, column_config={"0": "ID", "1": "Name"})
+    _id = st.text_input("ID der Kategorie")
+    if _id != "":
+        try:
+            _id = int(_id)
+            if _id <= len(_categories) and _id > 0:
+                _new_name = st.text_input("Neuer Name", value=_categories[_id-1][1])
+                if st.button("Aktualisieren", key="edit_cat"):
+                    item_services.edit_category(_id, _new_name)
+                    st.rerun()
+
+        except ValueError:
+            st.rerun()
+
+elif action_cat == "Kategorie löschen":
+    st.subheader("Kategorie löschen")
+    _cats = []
+    _catindex = 0
+
+    for cat in cats:
+        _cats.append(cat[1])
+    
+    _category = st.selectbox("Kategorien: ", _cats, index=_catindex)
+    if st.button("Löschen", key="delete_cat"):
+        _categories = item_services.get_all_categories()
+        for _id, _name in _categories:
+            if _name == _category:
+                delete_item(_id, "category")

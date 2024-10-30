@@ -31,7 +31,6 @@ def check_password():
         """Checks whether a password entered by the user is correct."""
         user_services = UserServices()
         is_valid = user_services.verify_password(st.session_state["username"], st.session_state["password"])
-        print(is_valid)
         if is_valid:
             st.session_state["logged_in"] = True
             del st.session_state["password"]  # Don't store the username or password.
@@ -66,8 +65,7 @@ if st.session_state.logged_in:
     pg = st.navigation(
         {
             "Account": [admin_page],
-            "Reports": [dashboard, alerts],
-            "Tools": [],
+            "Reports": [dashboard, alerts]
         }
     )
     pg.run()
