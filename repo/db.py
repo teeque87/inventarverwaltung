@@ -79,12 +79,6 @@ class Database():
         self.cur.execute('''SELECT user_name, hashed_password FROM users WHERE username = ?''', (user_name, user_password))
         return self.cur.fetchone()
 
-    #def verify_user_password(self, user_name: str):
-    #   """get the user by username and returns all data to this user"""
-    #   self.cur.execute('''SELECT hashed_password FROM users WHERE username = ?''', (user_name,))
-    #
-    #   return self.cur.fetchone()
-
     def add_new_user(self, user_name: str, hashed_password: str):
         """add new user (string: user_name, sting: hashed_password) to the database"""
         # add user if the user does not exist
@@ -94,6 +88,11 @@ class Database():
             print(f"User '{user_name}' wurde erfolgreich hinzugefügt.")
         else:
             print(f"User '{user_name}' existiert bereits.")
+
+    def update_user_password(self, username: str, new_password: str):
+        """updates the user password by the name of the user """
+        self.cur.execute('''UPDATE users SET hashed_password = ? WHERE username = ?''', (new_password, username))
+        self.connection.commit()
 
     def delete_user(self, user_name: str):
         """delete an user (str: user_name) from the database"""
