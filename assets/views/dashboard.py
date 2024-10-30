@@ -157,15 +157,15 @@ elif action_cat == "Kategorie bearbeiten":
     _categories = item_services.get_all_categories()
     st.dataframe(_categories, use_container_width=True, hide_index=True, column_config={"0": "ID", "1": "Name"})
     _id = st.text_input("ID der Kategorie")
-    if _id != "":
+    for cat in _categories:
         try:
             _id = int(_id)
-            if _id <= len(_categories) and _id > 0:
-                _new_name = st.text_input("Neuer Name", value=_categories[_id-1][1])
+            if cat[0] == _id:
+                _index = next((i for i, cat in enumerate(_categories) if cat[0] == _id), None)
+                _new_name = st.text_input("Neuer Name", value=_categories[_index][1])
                 if st.button("Aktualisieren", key="edit_cat"):
                     item_services.edit_category(_id, _new_name)
                     st.rerun()
-
         except ValueError:
             st.rerun()
 
