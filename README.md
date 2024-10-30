@@ -107,11 +107,10 @@ Folge den Anweisungen auf dem Bildschirm, um die Inventarverwaltung nach Bedarf 
   
 ## **Zukünftige Verbesserungen**
 
-Benutzerauthentifizierung für Multi-User-Zugriff implementieren.
 Reporting- und Exportfunktionen (z.B. CSV- oder PDF-Berichte) einbauen.
 
 
-# Inventarverwaltungssystem mit Version mit Gui
+# Inventarverwaltungssystem Version mit Gui (tkinter)
 
 Dieses Projekt ist ein **Inventarverwaltungssystem** mit einer grafischen Benutzeroberfläche (GUI), das auf Python und dem Tkinter-Framework basiert. Es ermöglicht die Verwaltung eines Inventars durch Hinzufügen, Bearbeiten, Löschen und Suchen von Artikeln. Es bietet auch eine Übersicht über das gesamte Inventar.
 
@@ -129,7 +128,9 @@ Dieses Projekt ist ein **Inventarverwaltungssystem** mit einer grafischen Benutz
 Um dieses Projekt auszuführen, benötigen Sie:
 
 -   **Python 3.x**
--   **Tkinter** (in der Standardbibliothek von Python enthalten)
+-   **Tkinter** (über Paketmanager istallieren)
+-   **bcrypt** (über Paketmanager istallieren)
+-   **streamlit** 
   
 ### Hauptmenü
 
@@ -145,8 +146,8 @@ Beim Start der Anwendung wird das Hauptmenü angezeigt. Von hier aus können Sie
 
 ### Abhängigkeiten
 
-Dieses Projekt verwendet keine externen Bibliotheken außer den Python-internen Modulen `tkinter` und `messagebox`.
+Dieses Projekt verwendet das externe Framework `streamlit`, außerdem die Python- Module `tkinter`, `bcrypt` und `messagebox`.
 
 **Lizenz**
 
-Dieses Projekt steht unter der MIT-Lizenz – siehe die LICENSE-Datei für weitere Informationen.
+keine Lizenz- es gelten die Urheberrechte
