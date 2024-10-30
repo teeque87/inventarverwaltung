@@ -30,6 +30,9 @@ Additionally, the system provides low stock alerts and enables quick item search
 ### Prerequisites
 
 Ensure `Python` is installed on your system. Check the Python version with:
+```
+python --version
+```
 
 ### Installation
 
