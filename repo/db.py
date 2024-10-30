@@ -10,7 +10,7 @@ class Database():
         self.connection = sqlite3.connect(Database.__DB_LOCATION, check_same_thread=False)
         self.cur = self.connection.cursor()
         self.__create_table()
-
+        
     def fetch_all(self) -> list[tuple]:
         """method to get all articles from the database."""
         self.cur.execute(
@@ -81,7 +81,7 @@ class Database():
         return self.cur.fetchone()
 
     def verify_user_password(self, user_name: str):
-        """get the user by username and returns the password according to this user"""
+        """get the user by username and returns all data to this user"""
         self.cur.execute('''SELECT hashed_password FROM users WHERE username = ?''', (user_name,))
         return self.cur.fetchone()
 
