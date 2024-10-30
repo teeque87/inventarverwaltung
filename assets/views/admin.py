@@ -2,10 +2,10 @@ import streamlit as st
 from services.user_services import UserServices
 import bcrypt
 
-st.title("🚨Benutzerverwaltung")
+st.title("🙋 Benutzerverwaltung")
 user_services = UserServices()
 
-st.sidebar.title("Benutzer verwalten")
+st.sidebar.title("🛂 Benutzer verwalten")
 action = st.sidebar.selectbox("Wähle eine Aktion:", ["Benutzer erstellen", "Benutzer löschen", "Benutzerpasswort bearbeiten","Alle Benutzer anzeigen"])
 
 if action == "Benutzer erstellen":
@@ -52,7 +52,7 @@ elif action == "Benutzerpasswort bearbeiten":
         else:
             st.error("Benutzer wurde nicht gefunden.")
 elif action == "Alle Benutzer anzeigen":
-    st.subheader("Alle Benutzer")
+    st.subheader("👪 Alle Benutzer")
     users = user_services.get_all_users()
     if users:
         for user in users:
