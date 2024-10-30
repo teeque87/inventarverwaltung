@@ -97,17 +97,19 @@ elif action == "Artikel erstellen":
 
     for cat in cats:
         _cats.append(cat[1])
+    
+    sum_of_articles = len(product_ids) + 1
 
     # Define all the text input fields with their prefilled values
-    _product_id = st.text_input("Artikelnummer")
+    _product_id = st.text_input("Artikelnummer", value=sum_of_articles)
     _name = st.text_input("Produktname")
     _amount = st.text_input("Menge")
     _category = st.selectbox("Kategorien: ", _cats, index=_catindex)
     
     if st.button("Speichern", key="save_new") and _product_id != "" and _name != "" and _amount != "":
         _categories = item_services.get_all_categories()
-        for _id_cat, _name in _categories:
-            if _name == _category:
+        for _id_cat, _cat_name in _categories:
+            if _cat_name == _category:
                 # Save the new values from the textboxes to the database
                 item_services.add_new_item(_product_id, _name, _amount, _id_cat)
                 st.rerun()
