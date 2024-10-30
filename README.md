@@ -1,153 +1,136 @@
 ![enter image description here](https://tse1.mm.bing.net/th?id=OIG4.k5fL_MZmyAwPGwWDYhMZ&pid=ImgGn)
 
+# Inventory Management System Version with CLI
 
-# Inventarverwaltungssystem Version mit CLI
+## **Overview**
 
+This Inventory Management System is a Python-based application designed for efficient management of products, product groups, and stock levels.  
+It offers functionalities for adding, editing, and deleting items and item groups, as well as managing incoming and outgoing stock movements.  
+Additionally, the system provides low stock alerts and enables quick item search.
 
-## **Überblick**
+## **Features**
 
-Dieses Inventarverwaltungssystem ist eine auf Python basierende Anwendung, die dazu dient, Produkte, Produktgruppen und Lagerbestände effizient zu verwalten. 
-Es bietet Funktionen zum Hinzufügen, Bearbeiten und Löschen von Artikeln und Artikelgruppen sowie zur Verwaltung von Wareneingang und -ausgang. 
-Das System bietet außerdem eine Bestandswarnung bei niedrigem Lagerbestand und ermöglicht eine schnelle Artikelsuche.
+- **Add/Edit/Delete Items:** Manage individual items in the inventory by adding, editing, or deleting them.
+- **Create/Edit/Delete Item Groups:** Categorize items into groups and manage them efficiently.
+- **Inventory Management:** Easily handle incoming stock (increase inventory) and outgoing stock (decrease inventory).
+- **Stock Alert:** Receive alerts when stock levels fall below a critical threshold.
+- **Item Search:** Quickly locate items by searching by item ID or product name.
+- **Display Inventory List:** View a list of all items currently in stock.
 
+## Technologies Used
 
-## **Funktionen**
+- **Python**: The programming language used for this project.
+- **SQLite**: The database used to store inventory data.
+- **ItemServices**: A custom module handling operations related to items and stock.
+- **Terminal-based User Interface**: Runs in the console, interacting through text-based input and output.
+- **GUI with Tkinter**: Offers a graphical user interface where input fields and controls allow user interaction with inventory operations and a display of results through GUI elements.
 
-- **Artikel anlegen/bearbeiten/löschen:** Verwalte einzelne Artikel im Inventar durch Hinzufügen, Bearbeiten oder Löschen.
-- **Artikelgruppen anlegen/bearbeiten/löschen:** Gruppiere Artikel in Kategorien und verwalte diese.
-- **Lagerverwaltung:** Verwalte Wareneingang (Bestand erhöhen) und Warenausgang (Bestand reduzieren) problemlos.
-- **Bestandswarnung:** Erhalte eine Warnung, wenn der Lagerbestand einen kritischen Schwellenwert unterschreitet.
-- **Artikelsuche:** Finde Artikel schnell durch Suche nach Artikel-ID oder Produktname.
-- **Inventarliste anzeigen:** Zeige alle aktuell im Bestand befindlichen Artikel an.
+## **Getting Started**
 
+### Prerequisites
 
-## Verwendete Technologien
+Ensure `Python` is installed on your system. Check the Python version with:
 
-Python: Die Programmiersprache, die für dieses Projekt verwendet wird.
-SQLite: Die Datenbank die verwendet wird
-ItemServices: Ein benutzerdefiniertes Modul, das die Operationen im Zusammenhang mit Artikeln und Lagerbeständen abwickelt.
+### Installation
 
-Terminal-basierte Benutzeroberfläche: Die Anwendung läuft in der Konsole und interagiert über eine textbasierte Eingabe und Ausgabe mit dem Benutzer.
-GUI mit Tkinter: Die Anwendung läuft auch über eine GUI und interagiert über eine Eingabefelder mit den eingebauten Operationen und zeigt ansprechend die Ausgabe über die GUI Elemente an.
-  
-
-## **Erste Schritte**  
-
-**Voraussetzungen**
-
-Stelle sicher, dass `Python` auf deinem System installiert ist. Überprüfe die Python-Version mit folgendem Befehl:
-```
-python --version
-```
-
-**Installation**
-
-Klone das Repository:
+Clone the repository:
 ```
 git clone https://github.com/teeque87/inventarverwaltung.git
 ```
-
-Wechsle in das Projektverzeichnis:
+Navigate to the project directory:
 ```
 cd inventarverwaltungssystem
 ```
-
-Abhängigkeiten installieren (vorzugsweise in einer virtuellen Umgebung (Environment wie z.b. venv, anaconda))
-
+Install dependencies (ideally in a virtual environment such as venv or Anaconda):
 ```
 pip install tk
 pip install bcrypt
 pip install streamlit
 ```
-
-Zum Starten der Anwendung je nach Betriebssystem eines der beiden Befehle verwenden.
+To launch the application, use one of the following commands depending on your operating system:
 ```
 python main.py
 ```
 ```
 python3 main.py
 ```
-Um die Webanwendung zu starten bitte den folgenden Befehl im Hauptverzeichnis anwenden
+To start the web application, run the following command in the main directory:
 ```
 streamlit run Inventarverwaltung.py
 ```
+Once the application starts, the main menu appears in your terminal, offering options such as:
 
-Sobald die Anwendung gestartet ist, erscheint das Hauptmenü in deinem Terminal. Dort werden dir verschiedene Optionen angeboten, wie z.B.:
+### Main Menu
 
-  
-**Hauptmenü**
+- **Add / Edit Items**
+    - **Submenu: Item Management**
+        - Add Item
+        - Edit Item
+        - Delete Item
+        - Return to Main Menu
+- **Add / Edit Item Group**
+    - **Submenu: Item Group Management**
+        - Add Item Group
+        - Edit Item Group
+        - Delete Item Group
+        - Return to Main Menu
+- **Incoming Stock**
+    - Searches for an item and allows entering the quantity to be added.
+- **Outgoing Stock**
+    - Searches for an item and allows entering the quantity to be deducted.
+- **Display Inventory List**
+    - Shows a list of all items currently in stock.
+- **Search Item**
+    - **Submenu: Item Search**
+        - Search by Item ID
+        - Search by Product Name
+- **Exit Program**
+    - Closes the program.
 
-- **Artikel anlegen / bearbeiten**
-    - **Untermenü: Artikelverwaltung**
-        - Artikel anlegen
-        - Artikel bearbeiten
-        - Artikel löschen
-        - Zurück zum Hauptmenü
-- **Artikelgruppe anlegen / bearbeiten**
-    - **Untermenü: Artikelgruppenverwaltung**
-        - Artikelgruppe anlegen
-        - Artikelgruppe bearbeiten
-        - Artikelgruppe löschen
-        -Zurück zum Hauptmenü
-- **Wareneingang**
-    - Sucht nach einem Artikel und ermöglicht die Eingabe der Menge, die hinzugefügt werden soll.
-- **Warenausgang**
-    - Sucht nach einem Artikel und ermöglicht die Eingabe der Menge, die abgezogen werden soll.
-- **Inventarliste ausgeben**
-    - Zeigt eine Liste aller aktuell im Lager befindlichen Artikel an.
-- **Artikel suchen**
-    - Untermenü: Artikelsuche
-        - Nach Artikel-ID suchen
-        - Nach Produktnamen suchen
-- **Programm beenden**
-    - Beendet das Programm.
+Follow the on-screen instructions to manage the inventory as needed.
 
-Folge den Anweisungen auf dem Bildschirm, um die Inventarverwaltung nach Bedarf zu steuern.
+## **Future Improvements**
 
-  
-## **Zukünftige Verbesserungen**
+Add reporting and export functions (e.g., CSV or PDF reports).
 
-Reporting- und Exportfunktionen (z.B. CSV- oder PDF-Berichte) einbauen.
+# Inventory Management System Version with GUI (Tkinter)
 
-
-# Inventarverwaltungssystem Version mit Gui (tkinter)
-
-Dieses Projekt ist ein **Inventarverwaltungssystem** mit einer grafischen Benutzeroberfläche (GUI), das auf Python und dem Tkinter-Framework basiert. Es ermöglicht die Verwaltung eines Inventars durch Hinzufügen, Bearbeiten, Löschen und Suchen von Artikeln. Es bietet auch eine Übersicht über das gesamte Inventar.
+This project is an **Inventory Management System** with a graphical user interface (GUI) built with Python and the Tkinter framework. It allows inventory management through adding, editing, deleting, and searching for items and provides an overview of the entire inventory.
 
 ## Features
 
--   **Artikel hinzufügen**: Ermöglicht das Hinzufügen neuer Artikel in das Inventar.
--   **Artikel bearbeiten**: Bearbeiten Sie existierende Artikel basierend auf ihrer ID.
--   **Artikel löschen**: Löschen Sie Artikel aus dem Inventar.
--   **Artikel suchen**: Suchen Sie nach Artikeln anhand ihrer ID oder ihres Namens.
--   **Inventarliste anzeigen**: Zeigen Sie eine Liste aller Artikel im Inventar an.
--   **GUI-basierte Navigation**: Benutzerfreundliche grafische Oberfläche mit einem Hauptmenü und verschiedenen Eingabeformularen.
+- **Add Item**: Enables adding new items to the inventory.
+- **Edit Item**: Edit existing items based on their ID.
+- **Delete Item**: Delete items from the inventory.
+- **Search Item**: Search for items by their ID or name.
+- **Display Inventory List**: Shows a list of all items in the inventory.
+- **GUI-based Navigation**: User-friendly graphical interface with a main menu and various input forms.
 
-## Anforderungen
+## Requirements
 
-Um dieses Projekt auszuführen, benötigen Sie:
+To run this project, you need:
 
--   **Python 3.x**
--   **Tkinter** (über Paketmanager istallieren)
--   **bcrypt** (über Paketmanager istallieren)
--   **streamlit** 
-  
-### Hauptmenü
+- **Python 3.x**
+- **Tkinter** (install through package manager)
+- **bcrypt** (install through package manager)
+- **streamlit** 
 
-Beim Start der Anwendung wird das Hauptmenü angezeigt. Von hier aus können Sie folgende Aktionen ausführen:
+### Main Menu
 
-1.  **Artikel nach ID suchen**: Suchen Sie nach einem Artikel anhand seiner ID und zeigen Sie die Details an.
-2.  **Artikel nach Name suchen**: Suchen Sie nach einem Artikel anhand seines Namens.
-3.  **Artikel hinzufügen**: Fügen Sie einen neuen Artikel in das Inventar ein, indem Sie die ID, den Namen, die Menge und die Kategorie-ID eingeben.
-4.  **Artikel bearbeiten**: Bearbeiten Sie die Informationen eines existierenden Artikels, indem Sie die Artikel-ID eingeben und anschließend die Details anpassen.
-5.  **Artikel löschen**: Löschen Sie einen Artikel aus dem Inventar, indem Sie dessen Artikel-ID angeben.
-6.  **Inventurliste anzeigen**: Zeigen Sie eine Liste aller Artikel im Inventar an.
-7.  **Beenden**: Schließen Sie die Anwendung.
+Upon starting the application, the main menu is displayed. From here, you can perform the following actions:
 
-### Abhängigkeiten
+1. **Search Item by ID**: Search for an item by its ID and display details.
+2. **Search Item by Name**: Search for an item by its name.
+3. **Add Item**: Add a new item to the inventory by entering the ID, name, quantity, and category ID.
+4. **Edit Item**: Modify details of an existing item by entering the item ID and updating relevant fields.
+5. **Delete Item**: Delete an item from the inventory by providing its item ID.
+6. **Display Inventory List**: View a list of all items in the inventory.
+7. **Exit**: Close the application.
 
-Dieses Projekt verwendet das externe Framework `streamlit`, außerdem die Python- Module `tkinter`, `bcrypt` und `messagebox`.
+### Dependencies
 
-**Lizenz**
+This project uses the external framework `streamlit` and the Python modules `tkinter`, `bcrypt`, and `messagebox`.
 
-keine Lizenz- es gelten die Urheberrechte
+**License**
+
+No license - copyright applies.
