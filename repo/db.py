@@ -81,7 +81,7 @@ class Database():
         return self.cur.fetchone()
 
     def verify_user_password(self, user_name: str):
-        """get the user by username and returns all data to this user"""
+        """get the user by username and returns the password according to this user"""
         self.cur.execute('''SELECT hashed_password FROM users WHERE username = ?''', (user_name,))
         return self.cur.fetchone()
 
@@ -102,7 +102,7 @@ class Database():
         self.connection.commit()
 
     def get_all_users(self):
-        """Gibt alle Benutzernamen zurück."""
+        """Returns all usernames."""
         self.cur.execute('''SELECT id,username FROM users ''')
         return self.cur.fetchall()
 
