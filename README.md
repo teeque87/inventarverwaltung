@@ -116,6 +116,12 @@ This project is an **Inventory Management System** with a graphical user interfa
 - **Display Inventory List**: Shows a list of all items in the inventory.
 - **GUI-based Navigation**: User-friendly graphical interface with a main menu and various input forms.
 
+## **Future Improvements**
+
+Add reporting and export functions (e.g., CSV or PDF reports) and managing and display outcoming and incoming stock. Further user and account management.
+
+
+
 # Inventory Management System Version with GUI (streamlit)
 
 This project is an **Inventory Management System** with a graphical user interface (GUI) built with Python and the streamlit framework. It allows inventory management through adding, editing, deleting, and searching for items and provides an overview of the entire inventory.
@@ -127,7 +133,37 @@ This project is an **Inventory Management System** with a graphical user interfa
 - **Delete Item**: Delete items from the inventory.
 - **Search Item**: Search for items by their ID or name.
 - **Display Inventory List**: Shows a list of all items in the inventory.
+- **User Authentication
 - **GUI-based Navigation**: User-friendly graphical interface with a main menu and various input forms.
+
+# Inventory Management System with User Authentication (only available in the streamlit Version)
+
+This Inventory Management System includes a user authentication feature to support multiple users, secure login, and personalized access to inventory management functions. Passwords are securely hashed before storage, ensuring data integrity and user privacy. 
+
+## **Features**
+
+- **Multi-User Support**: Allows different users to create individual accounts, each with unique login credentials.
+- **Secure Login**: Users are authenticated via a secure login process with passwords that are hashed using bcrypt before storage, protecting them from unauthorized access.
+- **Password Hashing**: During registration, user passwords are hashed using bcrypt, a strong cryptographic hashing library. Hashed passwords are then stored in the database, meaning actual passwords are never saved, adding a layer of security.
+- **User-Specific Access**: Each user logs in with their own credentials, which helps maintain personal account integrity and allows user-specific features or settings in future iterations.
+
+## **Getting Started with User Accounts**
+
+1. **Create a New User**: 
+    - On first run, a new user can create an account by entering a username and password. The password is then hashed and stored securely in the database.
+
+2. **Log In as Existing User**: 
+    - If an account already exists, the user can log in by entering their username and password. The system verifies the password by comparing the hashed version of the input with the stored hash in the database.
+
+3. **Manage User Sessions**: 
+    - Upon successful login, users can access inventory management functions such as adding, editing, deleting items, and viewing inventory lists.
+
+## **Technology Used for Authentication**
+
+- **bcrypt**: A cryptographic library used to hash and verify passwords securely.
+- **SQLite**: Database used to store user data, including hashed passwords, securely and reliably.
+
+This feature-rich system provides not only efficient inventory management but also strong user authentication, making it suitable for business environments with multiple users and sensitive data requirements.
 
 ## Requirements
 
