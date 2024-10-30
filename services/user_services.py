@@ -13,9 +13,6 @@ class UserServices:
            verify_password(self, user_name: str, user_password: str) -> bool: Verifies whether the given
                password matches the hashed password stored in the database for the specified username.
                Returns True if the password is correct, otherwise False.
-           input_user_verification(self): Prompts the user for username and password input, checks if the
-               user exists, and verifies the password if the user is found. Returns True if authentication
-               succeeds, otherwise False.
 
        Dependencies:
            bcrypt: Library for password hashing and verification.
