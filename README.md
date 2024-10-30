@@ -116,6 +116,19 @@ This project is an **Inventory Management System** with a graphical user interfa
 - **Display Inventory List**: Shows a list of all items in the inventory.
 - **GUI-based Navigation**: User-friendly graphical interface with a main menu and various input forms.
 
+# Inventory Management System Version with GUI (streamlit)
+
+This project is an **Inventory Management System** with a graphical user interface (GUI) built with Python and the streamlit framework. It allows inventory management through adding, editing, deleting, and searching for items and provides an overview of the entire inventory.
+
+## Features
+
+- **Add Item**: Enables adding new items to the inventory.
+- **Edit Item**: Edit existing items based on their ID.
+- **Delete Item**: Delete items from the inventory.
+- **Search Item**: Search for items by their ID or name.
+- **Display Inventory List**: Shows a list of all items in the inventory.
+- **GUI-based Navigation**: User-friendly graphical interface with a main menu and various input forms.
+
 ## Requirements
 
 To run this project, you need:
