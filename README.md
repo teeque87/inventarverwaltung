@@ -1,6 +1,12 @@
 ![enter image description here](https://tse1.mm.bing.net/th?id=OIG4.k5fL_MZmyAwPGwWDYhMZ&pid=ImgGn)
 
-# Inventory Management System Version with CLI
+# Inventory Management System
+
+This Inventory Management System is a versatile application built in Python for efficient stock and product group management, available as a Command Line Interface (CLI) and a Graphical User Interface (GUI) with Tkinter and Streamlit. It simplifies inventory control with functionalities for adding, editing, and deleting items, managing stock levels and providing low-stock alerts.  
+
+With quick search options, category management, and user-friendly navigation, this system aims to streamline inventory operations for businesses and personal use. Installation is straightforward, and the application supports both terminal and GUI interaction. Future enhancements will include reporting and export features to improve data accessibility and analytics.
+
+# Inventory Management System (Version with CLI)
 
 ## **Overview**
 
@@ -26,6 +32,7 @@ Additionally, the system provides low stock alerts and enables quick item search
 - **GUI with Tkinter**: Offers a graphical user interface where input fields and controls allow user interaction with inventory operations and a display of results through GUI elements.
 
 ## **Getting Started**
+
 
 ### Prerequisites
 
