@@ -56,6 +56,8 @@ Abhängigkeiten installieren (vorzugsweise in einer virtuellen Umgebung (Environ
 
 ```
 pip install tk
+pip install bcrypt
+pip install streamlit
 ```
 
 Zum Starten der Anwendung je nach Betriebssystem eines der beiden Befehle verwenden.
@@ -64,6 +66,10 @@ python main.py
 ```
 ```
 python3 main.py
+```
+Um die Webanwendung zu starten bitte den folgenden Befehl im Hauptverzeichnis anwenden
+```
+streamlit run Inventarverwaltung.py
 ```
 
 Sobald die Anwendung gestartet ist, erscheint das Hauptmenü in deinem Terminal. Dort werden dir verschiedene Optionen angeboten, wie z.B.:
