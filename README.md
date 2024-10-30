@@ -150,4 +150,4 @@ Dieses Projekt verwendet das externe Framework `streamlit`, außerdem die Python
 
 **Lizenz**
 
-Dieses Projekt steht unter der MIT-Lizenz – siehe die LICENSE-Datei für weitere Informationen.
+keine Lizenz- es gelten die Urheberrechte
