@@ -8,11 +8,6 @@ items = item_services.get_all_items()
 cats = item_services.get_all_categories()
 
 
-product_ids = []
-names = []
-amounts = []
-categories = []
-
 # Function to show a dialog to edit an item
 @st.dialog("Artikel bearbeiten")
 def edit_item(selected_index):
@@ -44,15 +39,20 @@ def edit_item(selected_index):
     with col2_:
         if st.button("Abbrechen"):
             st.rerun()
-    
 
-# Fill seperate to arrays with all data to form a useable pandas dataframe model
+product_ids = []
+names = []
+amounts = []
+categories = []    
+
+# Fill the empty arrays with each corresponding attributes from the database tuple array
 for item in items:
     product_ids.append(item.product_id)
     names.append(item.name)
     amounts.append(item.amount)
     categories.append(item.category)
 
+# Insert the arrays into the dictionary value fields of each matching key pair
 df = pd.DataFrame({"product_id": product_ids, "name": names, "amount": amounts, "category": categories})
 
 
