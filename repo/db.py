@@ -94,6 +94,11 @@ class Database():
         self.cur.execute('''UPDATE users SET hashed_password = ? WHERE username = ?''', (new_password, username))
         self.connection.commit()
 
+    def get_all_users(self) -> list[tuple]:
+        """method to get all users from the database."""
+        self.cur.execute('''SELECT id, username, hashed_password FROM users''')
+        return self.cur.fetchall()
+
     def delete_user(self, user_name: str):
         """delete an user (str: user_name) from the database"""
         self.cur.execute('''DELETE FROM users WHERE user_name = ?''', (user_name,))
